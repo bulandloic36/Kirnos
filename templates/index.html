@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="UTF-8">
+<title>Kirnos</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+
+/* BODY */
+
+body{
+margin:0;
+font-family:Arial;
+color:white;
+
+background:linear-gradient(
+120deg,
+#0b0b0b,
+#2a0000,
+#5a0000,
+#0b0b0b
+);
+
+background-size:400% 400%;
+animation:bgmove 15s infinite alternate;
+}
+
+@keyframes bgmove{
+0%{background-position:left;}
+100%{background-position:right;}
+}
+
+/* TOPBAR */
+
+.topbar{
+height:70px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:0 50px;
+}
+
+/* LOGO */
+
+.logo{
+font-size:28px;
+font-weight:bold;
+color:#ff2a2a;
+text-shadow:0 0 20px red;
+}
+
+/* MENU */
+
+.menu{
+display:flex;
+gap:35px;
+}
+
+.menu a{
+color:white;
+text-decoration:none;
+opacity:0.8;
+transition:0.2s;
+}
+
+.menu a:hover{
+opacity:1;
+color:#ff2a2a;
+}
+
+/* HERO */
+
+.hero{
+height:85vh;
+display:flex;
+align-items:center;
+justify-content:center;
+gap:120px;
+padding:40px;
+}
+
+/* LEFT */
+
+.hero-left{
+max-width:500px;
+}
+
+.hero-left h1{
+font-size:80px;
+margin:0;
+text-shadow:0 0 25px red;
+}
+
+.hero-left p{
+opacity:0.85;
+margin-top:15px;
+font-size:18px;
+}
+
+/* BUTTON */
+
+.btn{
+margin-top:30px;
+display:inline-block;
+padding:16px 40px;
+background:#ff2a2a;
+border-radius:40px;
+color:white;
+text-decoration:none;
+font-weight:bold;
+box-shadow:0 0 25px red;
+transition:0.3s;
+}
+
+.btn:hover{
+transform:scale(1.05);
+box-shadow:0 0 45px red;
+}
+
+/* IMAGE */
+
+.hero-img img{
+width:320px;
+border-radius:20px;
+box-shadow:0 0 60px red;
+animation:float 6s infinite ease-in-out;
+}
+
+@keyframes float{
+0%{transform:translateY(0);}
+50%{transform:translateY(-15px);}
+100%{transform:translateY(0);}
+}
+
+/* FEATURES */
+
+.features{
+display:flex;
+justify-content:center;
+gap:40px;
+padding:60px;
+background:#0b0b0b;
+}
+
+.feature{
+background:#111;
+padding:30px;
+border-radius:15px;
+width:260px;
+text-align:center;
+box-shadow:0 0 20px rgba(0,0,0,0.6);
+transition:0.3s;
+}
+
+.feature:hover{
+transform:translateY(-5px);
+box-shadow:0 0 25px red;
+}
+
+.feature h3{
+color:#ff2a2a;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="topbar">
+
+<div class="logo">KIRNOS</div>
+
+<div class="menu">
+<a href="#">Documentation</a>
+<a href="#">Premium</a>
+<a href="#">Status</a>
+<a href="#">Support</a>
+</div>
+
+</div>
+
+
+<div class="hero">
+
+<div class="hero-left">
+
+<h1>KIRNOS</h1>
+
+<p>
+Protection intelligente pour les lives TikTok.
+Détection spam, trolls et raids en temps réel.
+</p>
+
+<a href="/connect" class="btn">
+Connexion TikTok
+</a>
+
+</div>
+
+<div class="hero-img">
+
+<img src="/static/kirnos.jpg">
+
+</div>
+
+</div>
+
+
+<div class="features">
+
+<div class="feature">
+<h3>🧠 IA Anti Troll</h3>
+<p>Détection intelligente des insultes et comportements toxiques.</p>
+</div>
+
+<div class="feature">
+<h3>🚨 Anti Raid</h3>
+<p>Protection automatique contre les raids de viewers.</p>
+</div>
+
+<div class="feature">
+<h3>📊 Dashboard Live</h3>
+<p>Statistiques en temps réel sur ton live TikTok.</p>
+</div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="UTF-8">
+<title>Kirnos Dashboard</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="stylesheet" href="/static/style.css">
+
+</head>
+
+<body>
+
+<div class="topbar">
+<div class="logo">KIRNOS</div>
+</div>
+
+<div class="panel">
+
+<h1>Kirnos Live Protection</h1>
+
+<div class="stats">
+
+<div class="card">
+<h2 id="msg">0</h2>
+Messages
+</div>
+
+<div class="card">
+<h2 id="spam">0</h2>
+Spam
+</div>
+
+<div class="card">
+<h2 id="insult">0</h2>
+Insultes
+</div>
+
+<div class="card">
+<h2 id="raid">0</h2>
+Raid
+</div>
+
+</div>
+
+<div class="logs" id="logs">
+Chargement...
+</div>
+
+</div>
+
+<script>
+
+async function loadLogs(){
+
+const res = await fetch("/live")
+
+const text = await res.text()
+
+document.getElementById("logs").innerText = text
+
+const lines = text.split("\n")
+
+document.getElementById("msg").innerText = lines.length
+document.getElementById("spam").innerText = lines.filter(l=>l.includes("SPAM")).length
+document.getElementById("insult").innerText = lines.filter(l=>l.includes("INSULTE")).length
+document.getElementById("raid").innerText = lines.filter(l=>l.includes("RAID")).length
+
+}
+
+setInterval(loadLogs,2000)
+
+</script>
+
+</body>
+</html>

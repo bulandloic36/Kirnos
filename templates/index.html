@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
 
 <meta charset="UTF-8">
@@ -9,7 +9,7 @@
 
 <style>
 
-/* BODY */
+/* GLOBAL */
 
 body{
 margin:0;
@@ -36,50 +36,42 @@ animation:bgmove 15s infinite alternate;
 /* TOPBAR */
 
 .topbar{
-height:70px;
 display:flex;
-align-items:center;
 justify-content:space-between;
-padding:0 50px;
+align-items:center;
+padding:20px 40px;
 }
-
-/* LOGO */
 
 .logo{
-font-size:28px;
+font-size:24px;
 font-weight:bold;
 color:#ff2a2a;
-text-shadow:0 0 20px red;
+text-shadow:0 0 15px red;
 }
-
-/* MENU */
 
 .menu{
 display:flex;
-gap:35px;
+gap:30px;
 }
 
 .menu a{
 color:white;
 text-decoration:none;
 opacity:0.8;
-transition:0.2s;
 }
 
 .menu a:hover{
 opacity:1;
-color:#ff2a2a;
 }
 
 /* HERO */
 
 .hero{
-height:85vh;
 display:flex;
 align-items:center;
 justify-content:center;
-gap:120px;
-padding:40px;
+gap:80px;
+padding:80px 40px;
 }
 
 /* LEFT */
@@ -89,50 +81,40 @@ max-width:500px;
 }
 
 .hero-left h1{
-font-size:80px;
+font-size:70px;
 margin:0;
-text-shadow:0 0 25px red;
 }
 
 .hero-left p{
-opacity:0.85;
+opacity:0.8;
 margin-top:15px;
 font-size:18px;
 }
 
-/* BUTTON */
-
 .btn{
-margin-top:30px;
 display:inline-block;
-padding:16px 40px;
+margin-top:25px;
+padding:15px 35px;
 background:#ff2a2a;
-border-radius:40px;
+border-radius:30px;
 color:white;
 text-decoration:none;
 font-weight:bold;
-box-shadow:0 0 25px red;
+box-shadow:0 0 20px red;
 transition:0.3s;
 }
 
 .btn:hover{
 transform:scale(1.05);
-box-shadow:0 0 45px red;
+box-shadow:0 0 40px red;
 }
 
 /* IMAGE */
 
 .hero-img img{
-width:320px;
+width:420px;
 border-radius:20px;
-box-shadow:0 0 60px red;
-animation:float 6s infinite ease-in-out;
-}
-
-@keyframes float{
-0%{transform:translateY(0);}
-50%{transform:translateY(-15px);}
-100%{transform:translateY(0);}
+box-shadow:0 0 40px red;
 }
 
 /* FEATURES */
@@ -140,28 +122,58 @@ animation:float 6s infinite ease-in-out;
 .features{
 display:flex;
 justify-content:center;
-gap:40px;
-padding:60px;
-background:#0b0b0b;
+gap:30px;
+padding:40px;
+flex-wrap:wrap;
 }
 
 .feature{
 background:#111;
-padding:30px;
-border-radius:15px;
-width:260px;
+padding:25px;
+border-radius:12px;
+width:250px;
 text-align:center;
-box-shadow:0 0 20px rgba(0,0,0,0.6);
-transition:0.3s;
-}
-
-.feature:hover{
-transform:translateY(-5px);
-box-shadow:0 0 25px red;
+box-shadow:0 0 15px rgba(0,0,0,0.5);
 }
 
 .feature h3{
 color:#ff2a2a;
+margin-top:0;
+}
+
+/* MOBILE */
+
+@media screen and (max-width:768px){
+
+.hero{
+flex-direction:column;
+text-align:center;
+gap:40px;
+padding:40px 20px;
+}
+
+.hero-left h1{
+font-size:42px;
+}
+
+.hero-img img{
+width:100%;
+max-width:300px;
+}
+
+.menu{
+display:none;
+}
+
+.features{
+flex-direction:column;
+align-items:center;
+}
+
+.feature{
+width:90%;
+}
+
 }
 
 </style>
@@ -172,7 +184,9 @@ color:#ff2a2a;
 
 <div class="topbar">
 
-<div class="logo">KIRNOS</div>
+<div class="logo">
+KIRNOS
+</div>
 
 <div class="menu">
 <a href="#">Documentation</a>
@@ -191,12 +205,11 @@ color:#ff2a2a;
 <h1>KIRNOS</h1>
 
 <p>
-Protection intelligente pour les lives TikTok.
-Détection spam, trolls et raids en temps réel.
+Protection intelligente pour les lives TikTok
 </p>
 
 <a href="/connect" class="btn">
-Connexion TikTok
+Connecter TikTok
 </a>
 
 </div>
@@ -213,18 +226,18 @@ Connexion TikTok
 <div class="features">
 
 <div class="feature">
-<h3>🧠 IA Anti Troll</h3>
-<p>Détection intelligente des insultes et comportements toxiques.</p>
+<h3>IA Anti Troll</h3>
+<p>Détection automatique des insultes et du spam.</p>
 </div>
 
 <div class="feature">
-<h3>🚨 Anti Raid</h3>
-<p>Protection automatique contre les raids de viewers.</p>
+<h3>Anti Raid</h3>
+<p>Protection contre les attaques de viewers.</p>
 </div>
 
 <div class="feature">
-<h3>📊 Dashboard Live</h3>
-<p>Statistiques en temps réel sur ton live TikTok.</p>
+<h3>Dashboard Live</h3>
+<p>Statistiques en temps réel pendant ton live.</p>
 </div>
 
 </div>

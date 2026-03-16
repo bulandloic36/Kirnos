@@ -69,7 +69,9 @@ async def login(username: str = Form(...), password: str = Form(...)):
 
 
 from fastapi.responses import FileResponse
+import os
 
 @app.get("/tiktokvcZ5glwKPTIyTjXxJsyPRBASLDIQW70u.txt")
 def tiktok_verification():
-    return FileResponse("backend/tiktokvcZ5glwKPTIyTjXxJsyPRBASLDIQW70u.txt")
+    file_path = os.path.join(os.path.dirname(__file__), "tiktokvcZ5glwKPTIyTjXxJsyPRBASLDIQW70u.txt")
+    return FileResponse(file_path)

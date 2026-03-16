@@ -65,3 +65,11 @@ async def login(username: str = Form(...), password: str = Form(...)):
         users[username] = password
 
     return RedirectResponse("/dashboard", status_code=303)
+
+
+
+from fastapi.responses import FileResponse
+
+@app.get("/tiktokvcZ5glwKPTIyTjXxJsyPRBASLDIQW70u.txt")
+def tiktok_verification():
+    return FileResponse("tiktokvcZ5glwKPTIyTjXxJsyPRBASLDIQW70u.txt")

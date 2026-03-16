@@ -72,4 +72,4 @@ from fastapi.responses import FileResponse
 
 @app.get("/tiktokvcZ5glwKPTIyTjXxJsyPRBASLDIQW70u.txt")
 def tiktok_verification():
-    return FileResponse("tiktokvcZ5glwKPTIyTjXxJsyPRBASLDIQW70u.txt")
+    return FileResponse("backend/tiktokvcZ5glwKPTIyTjXxJsyPRBASLDIQW70u.txt")

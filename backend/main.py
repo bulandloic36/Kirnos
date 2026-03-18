@@ -24,9 +24,9 @@ app.mount(
 )
 
 # ===== TEST =====
-@app.get("/test")
-def test():
-    return {"kirnos": "ok"}
+@app.get("/force")
+def force():
+    return {"ok": "YES"}
 
 # ===== HOME =====
 @app.get("/", response_class=HTMLResponse)
@@ -93,3 +93,4 @@ def tiktok_callback(code: str):
     token_data = response.json()
 
     return token_data
+

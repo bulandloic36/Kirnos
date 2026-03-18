@@ -67,6 +67,9 @@ async def login(username: str = Form(...), password: str = Form(...)):
     return RedirectResponse("/dashboard", status_code=303)
 
 
+import os
 from fastapi.staticfiles import StaticFiles
 
-app.mount("/", StaticFiles(directory=".", html=True), name="static")
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+app.mount("/", StaticFiles(directory=BASE_DIR, html=True), name="static")

@@ -3,15 +3,17 @@ from fastapi.responses import HTMLResponse, PlainTextResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 import os
+import requests
 
 app = FastAPI()
 
-@app.get("/test")
-def test():
-    return {"kirnos": "ok"}
+# ===== CONFIG =====
+CLIENT_KEY = "awon9ygf81kxe6sx"
+CLIENT_SECRET = "uThXUV0H8COoccFKqeGVnHNw9IuU3aDV"
+REDIRECT_URI = "https://kirnos.onrender.com/auth/callback"
 
-# chemins
-BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+# ===== PATH =====
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 templates = Jinja2Templates(directory=os.path.join(BASE_DIR, "templates"))
 
@@ -21,31 +23,35 @@ app.mount(
     name="static"
 )
 
-# page accueil
+# ===== TEST =====
+@app.get("/test")
+def test():
+    return {"kirnos": "ok"}
+
+# ===== HOME =====
 @app.get("/", response_class=HTMLResponse)
 async def home(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
-
-# page connexion
-@app.get("/connect")
+# ===== PAGE LOGIN =====
+@app.get("/connect", response_class=HTMLResponse)
 async def connect(request: Request):
     return templates.TemplateResponse("login.html", {"request": request})
 
+# ===== LOGIN LOCAL =====
+users = {}
 
-# login
 @app.post("/login")
-async def login(username: str = Form(...)):
+async def login(username: str = Form(...), password: str = Form(...)):
+    users[username] = password
     return RedirectResponse("/dashboard", status_code=303)
 
-
-# dashboard
+# ===== DASHBOARD =====
 @app.get("/dashboard", response_class=HTMLResponse)
 async def dashboard(request: Request):
     return templates.TemplateResponse("dashboard.html", {"request": request})
 
-
-# logs live
+# ===== LIVE LOGS =====
 @app.get("/live", response_class=PlainTextResponse)
 def live():
     try:
@@ -53,23 +59,37 @@ def live():
             return f.read()
     except:
         return "No logs"
-    
-    from fastapi import Form
 
-users = {}
+# ===== LOGIN TIKTOK =====
+@app.get("/login/tiktok")
+def login_tiktok():
+    state = "kirnos123"
 
-@app.post("/login")
-async def login(username: str = Form(...), password: str = Form(...)):
-    
-    if username not in users:
-        users[username] = password
+    url = (
+        f"https://www.tiktok.com/auth/authorize/"
+        f"?client_key={CLIENT_KEY}"
+        f"&response_type=code"
+        f"&scope=user.info.basic"
+        f"&redirect_uri={REDIRECT_URI}"
+        f"&state={state}"
+    )
 
-    return RedirectResponse("/dashboard", status_code=303)
+    return RedirectResponse(url)
 
+# ===== CALLBACK TIKTOK =====
+@app.get("/auth/callback")
+def tiktok_callback(code: str):
+    token_url = "https://open.tiktokapis.com/v2/oauth/token/"
 
-import os
-from fastapi.staticfiles import StaticFiles
+    data = {
+        "client_key": CLIENT_KEY,
+        "client_secret": CLIENT_SECRET,
+        "code": code,
+        "grant_type": "authorization_code",
+        "redirect_uri": REDIRECT_URI
+    }
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    response = requests.post(token_url, data=data)
+    token_data = response.json()
 
-app.mount("/", StaticFiles(directory=BASE_DIR, html=True), name="static")
+    return token_data

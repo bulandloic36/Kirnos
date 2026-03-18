@@ -67,11 +67,6 @@ async def login(username: str = Form(...), password: str = Form(...)):
     return RedirectResponse("/dashboard", status_code=303)
 
 
+from fastapi.staticfiles import StaticFiles
 
-from fastapi.responses import FileResponse
-import os
-
-@app.get("/tiktokvcZ5glwKPTIyTjXxJsyPRBASLDIQW70u.txt")
-def tiktok_verification():
-    file_path = os.path.join(os.path.dirname(__file__), "tiktokvcZ5glwKPTIyTjXxJsyPRBASLDIQW70u.txt")
-    return FileResponse(file_path)
+app.mount("/", StaticFiles(directory=".", html=True), name="static")

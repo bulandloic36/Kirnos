@@ -14,9 +14,15 @@ body{
 margin:0;
 font-family:Arial;
 color:white;
-background:linear-gradient(120deg,#0b0b0b,#2a0000,#5a0000,#0b0b0b);
-background-size:400% 400%;
-animation:bgmove 15s infinite alternate;
+
+/* 🔥 IMAGE + GRADIENT */
+background:
+linear-gradient(120deg,#0b0b0bcc,#2a0000cc,#5a0000cc,#0b0b0bcc),
+url("/static/kirnos.jpg");
+
+background-size:cover;
+background-position:center;
+background-repeat:no-repeat;
 }
 
 @keyframes bgmove{

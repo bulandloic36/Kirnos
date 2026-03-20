@@ -15,14 +15,15 @@ margin:0;
 font-family:Arial;
 color:white;
 
-/* 🔥 IMAGE PROPRE + BIEN POSITIONNÉE */
-background:
-linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)),
-url("/static/kirnos.jpg");
+/* 🔥 TON FOND ROUGE PROPRE */
+background:linear-gradient(120deg,#0b0b0b,#2a0000,#5a0000,#0b0b0b);
+background-size:400% 400%;
+animation:bgmove 15s infinite alternate;
+}
 
-background-size:cover;
-background-position:center 75%;
-background-repeat:no-repeat;
+@keyframes bgmove{
+0%{background-position:left;}
+100%{background-position:right;}
 }
 
 /* TOPBAR */
@@ -35,49 +36,52 @@ padding:20px 40px;
 }
 
 .logo{
-font-size:26px;
+font-size:24px;
 font-weight:bold;
 color:#ff2a2a;
-letter-spacing:2px;
 }
 
 .menu{
 display:flex;
-gap:25px;
+gap:30px;
 }
 
 .menu a{
 color:white;
 text-decoration:none;
 cursor:pointer;
-opacity:0.7;
-transition:0.3s;
+opacity:0.8;
 }
 
 .menu a:hover{
-opacity:1;
 color:#ff2a2a;
 }
 
 /* HERO */
 
 .hero{
-text-align:center;
-padding:120px 20px 60px;
+display:flex;
+align-items:center;
+justify-content:center;
+gap:80px;
+padding:80px 40px;
 }
 
-.hero h1{
-font-size:80px;
+/* TEXTE GAUCHE */
+
+.hero-left{
+max-width:500px;
+}
+
+.hero-left h1{
+font-size:70px;
 margin:0;
-letter-spacing:3px;
 }
 
-.hero p{
+.hero-left p{
 opacity:0.8;
 margin-top:10px;
 }
-
-/* BOUTON */
 
 .btn{
 display:inline-block;
@@ -88,13 +92,23 @@ border-radius:30px;
 color:white;
 text-decoration:none;
 font-weight:bold;
-box-shadow:0 0 20px rgba(255,0,0,0.6);
+box-shadow:0 0 20px red;
 transition:0.3s;
 }
 
 .btn:hover{
-transform:scale(1.08);
+transform:scale(1.05);
 box-shadow:0 0 40px red;
+}
+
+/* IMAGE DROITE */
+
+.hero-img img{
+width:420px;
+border-radius:20px;
+
+/* 🔥 effet propre */
+box-shadow:0 0 50px rgba(255,0,0,0.5);
 }
 
 /* FEATURES */
@@ -108,72 +122,46 @@ flex-wrap:wrap;
 }
 
 .feature{
-background:rgba(0,0,0,0.6);
+background:#111;
 padding:25px;
 border-radius:15px;
 width:250px;
 text-align:center;
-
 transition:0.3s;
 }
 
 .feature:hover{
 transform:translateY(-10px);
-box-shadow:0 10px 30px rgba(0,0,0,0.8);
+box-shadow:0 10px 30px black;
 }
 
-/* 🔥 PANEL */
+/* PANEL */
 
 .panel{
 display:none;
 margin:40px auto;
 width:80%;
-max-width:900px;
+max-width:800px;
 
 background:linear-gradient(145deg,#8b0000,#400000);
-border-radius:20px;
-padding:35px;
+border-radius:15px;
+padding:30px;
 text-align:center;
 
 border:2px solid black;
-
-box-shadow:
-0 10px 50px rgba(0,0,0,0.9);
-
-animation:fade 0.3s ease;
-}
-
-@keyframes fade{
-from{opacity:0; transform:translateY(20px);}
-to{opacity:1; transform:translateY(0);}
-}
-
-/* TITRES PANEL */
-
-.panel h2{
-margin-bottom:20px;
-color:white;
-}
-
-/* LIENS */
-
-.panel a{
-color:white;
-text-decoration:none;
-display:block;
-margin:10px 0;
-transition:0.3s;
-}
-
-.panel a:hover{
-color:#ff2a2a;
+box-shadow:0 10px 40px black;
 }
 
 /* MOBILE */
 
 @media screen and (max-width:768px){
-.hero h1{
-font-size:50px;
+.hero{
+flex-direction:column;
+text-align:center;
+}
+
+.hero-img img{
+width:300px;
 }
 }
 
@@ -199,10 +187,18 @@ font-size:50px;
 <!-- HERO -->
 
 <div class="hero">
+
+<div class="hero-left">
 <h1>KIRNOS</h1>
 <p>Protection intelligente pour les lives TikTok</p>
 
 <a href="/connect" class="btn">Connecter TikTok</a>
+</div>
+
+<div class="hero-img">
+<img src="/static/kirnos.jpg">
+</div>
+
 </div>
 
 <!-- FEATURES -->
@@ -240,11 +236,9 @@ panel.style.display = "block";
 if(type === "docs"){
 panel.innerHTML = `
 <h2>Documentation</h2>
-<p>Connexion du compte TikTok</p>
-<p>Activation des protections automatiques</p>
-<p>Gestion du chat en temps réel</p>
-<p>Configuration du bot</p>
-<br>
+<p>Connexion TikTok</p>
+<p>Activation protections</p>
+<p>Configuration bot</p>
 <p>1 semaine gratuite puis abonnement</p>
 `;
 }
@@ -255,10 +249,7 @@ panel.innerHTML = `
 <p>1 mois : 10€</p>
 <p>3 mois : 30€</p>
 <p>6 mois : 50€</p>
-<br>
-<p>Paiement sécurisé :</p>
-<p>Carte bancaire</p>
-<p>PayPal</p>
+<p>Paiement : Carte / PayPal</p>
 `;
 }
 
@@ -266,7 +257,7 @@ if(type === "status"){
 panel.innerHTML = `
 <h2>Status</h2>
 <p>Serveur : En ligne</p>
-<p>API TikTok : Fonctionnelle</p>
+<p>API : OK</p>
 <p>Protection : Active</p>
 `;
 }
@@ -274,10 +265,10 @@ panel.innerHTML = `
 if(type === "support"){
 panel.innerHTML = `
 <h2>Support</h2>
-<a href="https://discord.gg/72372NQEu" target="_blank">Discord</a>
-<a href="https://twitter.com/KIRNOS350102" target="_blank">Twitter / X</a>
-<a href="https://tiktok.com/@kirnos24" target="_blank">TikTok</a>
-<a href="https://wa.me/33743260248" target="_blank">WhatsApp</a>
+<p><a href="https://discord.gg/72372NQEu" target="_blank">Discord</a></p>
+<p><a href="https://twitter.com/KIRNOS350102" target="_blank">Twitter</a></p>
+<p><a href="https://tiktok.com/@kirnos24" target="_blank">TikTok</a></p>
+<p><a href="https://wa.me/33743260248" target="_blank">WhatsApp</a></p>
 `;
 }
 

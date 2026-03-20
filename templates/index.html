@@ -54,6 +54,7 @@ gap:30px;
 color:white;
 text-decoration:none;
 opacity:0.8;
+cursor:pointer;
 }
 
 .menu a:hover{
@@ -157,7 +158,7 @@ display:none;
 <div class="menu">
 <a href="#docs">Documentation</a>
 <a href="#status">Status</a>
-<a href="#support">Support</a>
+<a onclick="openSupport()">Support</a>
 </div>
 
 </div>
@@ -206,33 +207,87 @@ display:none;
 
 <div class="section" id="docs">
 <h2>Documentation</h2>
-<p>
-Kirnos permet de sécuriser et gérer vos lives TikTok automatiquement.
-Connexion, modération et protection en temps réel.
-</p>
+
+<p>Kirnos est un bot de protection pour live TikTok.</p>
+
+<p>✔ Anti insultes automatique</p>
+<p>✔ Anti raid</p>
+<p>✔ Dashboard en temps réel</p>
+
+<br>
+
+<p><b>Comment utiliser :</b></p>
+<p>1. Connecte ton compte TikTok</p>
+<p>2. Lance ton live</p>
+<p>3. Le bot protège automatiquement</p>
+
+<br>
+
+<p><b>Tarif :</b></p>
+<p>✅ 1 semaine gratuite</p>
+<p>💰 Ensuite abonnement Premium</p>
+
 </div>
 
 <!-- STATUS -->
 
 <div class="section" id="status">
 <h2>Status</h2>
-<p>🟢 Serveur : En ligne</p>
+
+<p id="serverStatus">🟢 Serveur : En ligne</p>
 <p>🟢 API TikTok : Fonctionnelle</p>
 <p>🟢 Protection : Active</p>
-</div>
-
-<!-- SUPPORT -->
-
-<div class="section" id="support">
-<h2>Support</h2>
-<p>Contacte-nous :</p>
-
-<p>Discord : https://discord.gg/72372NQEu</p>
-<p>TikTok : https://tiktok.com/@kirnos24</p>
-<p>WhatsApp : https://wa.me/33743260248</p>
-<p>Twitter : https://twitter.com/KIRNOS350102</p>
 
 </div>
+
+<!-- SUPPORT POPUP -->
+
+<div id="supportModal" style="
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.8);
+justify-content:center;
+align-items:center;
+z-index:999;
+">
+
+<div style="
+background:#111;
+padding:30px;
+border-radius:15px;
+text-align:center;
+box-shadow:0 0 40px red;
+width:300px;
+">
+
+<h2 style="color:#ff2a2a;">Support</h2>
+
+<p><a href="https://discord.gg/72372NQEu" target="_blank">💬 Discord</a></p>
+<p><a href="https://twitter.com/KIRNOS350102" target="_blank">🐦 Twitter/X</a></p>
+<p><a href="https://tiktok.com/@kirnos24" target="_blank">🎵 TikTok</a></p>
+<p><a href="https://wa.me/33743260248" target="_blank">📱 WhatsApp</a></p>
+
+<br>
+<button onclick="closeSupport()">Fermer</button>
+
+</div>
+</div>
+
+<script>
+
+function openSupport(){
+document.getElementById("supportModal").style.display = "flex";
+}
+
+function closeSupport(){
+document.getElementById("supportModal").style.display = "none";
+}
+
+</script>
 
 </body>
 </html>

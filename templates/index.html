@@ -8,18 +8,21 @@
 
 <style>
 
-/* GLOBAL */
+/* 🔥 FOND DEGRADE PRO */
 
 body{
 margin:0;
 font-family:Arial;
 color:white;
 
-/* 🔥 IMAGE UNIQUE */
-background:url("/static/kirnos.jpg");
-background-size:cover;
-background-position:center 75%;
-background-repeat:no-repeat;
+background:linear-gradient(120deg,#000000,#1a0000,#5a0000,#000000);
+background-size:400% 400%;
+animation:bgmove 10s infinite alternate;
+}
+
+@keyframes bgmove{
+0%{background-position:left;}
+100%{background-position:right;}
 }
 
 /* TOPBAR */
@@ -43,9 +46,9 @@ gap:30px;
 }
 
 .menu a{
-color:white;
-text-decoration:none;
 cursor:pointer;
+text-decoration:none;
+color:white;
 opacity:0.8;
 }
 
@@ -53,53 +56,62 @@ opacity:0.8;
 color:#ff2a2a;
 }
 
-/* 🔥 PANEL JUSTE SOUS LE MENU */
+/* 🔥 BARRE DÉROULANTE */
 
-.panel{
-display:none;
-width:100%;
-padding:20px;
-text-align:center;
+.dropdown{
+max-height:0;
+overflow:hidden;
+transition:0.4s;
 
-/* 🔥 TRANSPARENT PRO */
-background:rgba(0,0,0,0.5);
+background:rgba(0,0,0,0.6);
 backdrop-filter:blur(10px);
 
-border-top:1px solid rgba(255,255,255,0.1);
-border-bottom:1px solid rgba(255,255,255,0.1);
+text-align:center;
+}
+
+.dropdown.active{
+max-height:300px;
+padding:20px;
 }
 
 /* HERO */
 
 .hero{
-text-align:center;
-
-/* 🔥 DESCEND LE TEXTE (évite la tête) */
-padding:180px 20px 80px;
+display:flex;
+align-items:center;
+justify-content:center;
+gap:80px;
+padding:80px 40px;
+flex-wrap:wrap;
 }
 
-.hero h1{
+.hero-left{
+max-width:500px;
+}
+
+.hero-left h1{
 font-size:70px;
 margin:0;
 }
 
-.hero p{
-opacity:0.8;
-margin-top:10px;
-}
-
-/* BOUTON */
-
 .btn{
 display:inline-block;
-margin-top:25px;
+margin-top:20px;
 padding:15px 35px;
 background:#ff2a2a;
 border-radius:30px;
 color:white;
 text-decoration:none;
 font-weight:bold;
-box-shadow:0 0 20px red;
+box-shadow:0 0 15px red;
+}
+
+/* IMAGE */
+
+.hero-img img{
+width:420px;
+border-radius:20px;
+box-shadow:0 0 30px rgba(255,0,0,0.5);
 }
 
 /* FEATURES */
@@ -123,9 +135,12 @@ text-align:center;
 /* MOBILE */
 
 @media screen and (max-width:768px){
+
 .hero{
-padding-top:140px;
+flex-direction:column;
+text-align:center;
 }
+
 }
 
 </style>
@@ -134,29 +149,70 @@ padding-top:140px;
 
 <body>
 
-<!-- TOPBAR -->
+<!-- MENU -->
 
 <div class="topbar">
+
 <div class="logo">KIRNOS</div>
 
 <div class="menu">
-<a onclick="openPanel('docs')">Documentation</a>
-<a onclick="openPanel('premium')">Premium</a>
-<a onclick="openPanel('status')">Status</a>
-<a onclick="openPanel('support')">Support</a>
-</div>
+<a onclick="toggle('docs')">Documentation</a>
+<a onclick="toggle('premium')">Premium</a>
+<a onclick="toggle('status')">Status</a>
+<a onclick="toggle('support')">Support</a>
 </div>
 
-<!-- 🔥 PANEL ICI (JUSTE SOUS LE MENU) -->
-<div id="panel" class="panel"></div>
+</div>
+
+<!-- 🔥 DROPDOWNS -->
+
+<div id="docs" class="dropdown">
+<h3>Documentation</h3>
+<p>Connexion TikTok</p>
+<p>Configuration</p>
+<p>Protection live</p>
+</div>
+
+<div id="premium" class="dropdown">
+<h3>Premium</h3>
+<p>1 mois : 10€</p>
+<p>3 mois : 30€</p>
+<p>6 mois : 50€</p>
+<p>Carte / PayPal</p>
+</div>
+
+<div id="status" class="dropdown">
+<h3>Status</h3>
+<p>Serveur : En ligne</p>
+<p>API : Fonctionnelle</p>
+<p>Protection : Active</p>
+</div>
+
+<div id="support" class="dropdown">
+<h3>Support</h3>
+<p>Discord</p>
+<p>Twitter / X</p>
+<p>TikTok</p>
+<p>WhatsApp</p>
+</div>
 
 <!-- HERO -->
 
 <div class="hero">
+
+<div class="hero-left">
+
 <h1>KIRNOS</h1>
 <p>Protection intelligente pour les lives TikTok</p>
 
 <a href="/connect" class="btn">Connecter TikTok</a>
+
+</div>
+
+<div class="hero-img">
+<img src="/static/kirnos.jpg">
+</div>
+
 </div>
 
 <!-- FEATURES -->
@@ -182,52 +238,20 @@ padding-top:140px;
 
 <script>
 
-function openPanel(type){
+/* 🔥 TOGGLE PRO */
 
-let panel = document.getElementById("panel");
-panel.style.display = "block";
+function toggle(id){
 
-/* SCROLL AUTO EN HAUT */
-window.scrollTo({top:0, behavior:'smooth'});
+let all = document.querySelectorAll(".dropdown");
 
-if(type === "docs"){
-panel.innerHTML = `
-<h3>Documentation</h3>
-<p>Connexion TikTok</p>
-<p>Activation des protections</p>
-<p>Configuration du bot</p>
-<p>1 semaine gratuite</p>
-`;
+all.forEach(el=>{
+if(el.id !== id){
+el.classList.remove("active");
 }
+});
 
-if(type === "premium"){
-panel.innerHTML = `
-<h3>Premium</h3>
-<p>1 mois : 10€</p>
-<p>3 mois : 30€</p>
-<p>6 mois : 50€</p>
-<p>Paiement : Carte / PayPal</p>
-`;
-}
-
-if(type === "status"){
-panel.innerHTML = `
-<h3>Status</h3>
-<p>Serveur : En ligne</p>
-<p>API : Fonctionnelle</p>
-<p>Protection : Active</p>
-`;
-}
-
-if(type === "support"){
-panel.innerHTML = `
-<h3>Support</h3>
-<p><a href="https://discord.gg/72372NQEu" target="_blank">Discord</a></p>
-<p><a href="https://twitter.com/KIRNOS350102" target="_blank">Twitter</a></p>
-<p><a href="https://tiktok.com/@kirnos24" target="_blank">TikTok</a></p>
-<p><a href="https://wa.me/33743260248" target="_blank">WhatsApp</a></p>
-`;
-}
+let element = document.getElementById(id);
+element.classList.toggle("active");
 
 }
 

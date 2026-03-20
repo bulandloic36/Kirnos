@@ -15,15 +15,11 @@ margin:0;
 font-family:Arial;
 color:white;
 
-/* 🔥 TON FOND ROUGE PROPRE */
-background:linear-gradient(120deg,#0b0b0b,#2a0000,#5a0000,#0b0b0b);
-background-size:400% 400%;
-animation:bgmove 15s infinite alternate;
-}
-
-@keyframes bgmove{
-0%{background-position:left;}
-100%{background-position:right;}
+/* 🔥 IMAGE UNIQUE */
+background:url("/static/kirnos.jpg");
+background-size:cover;
+background-position:center 75%;
+background-repeat:no-repeat;
 }
 
 /* TOPBAR */
@@ -57,31 +53,42 @@ opacity:0.8;
 color:#ff2a2a;
 }
 
+/* 🔥 PANEL JUSTE SOUS LE MENU */
+
+.panel{
+display:none;
+width:100%;
+padding:20px;
+text-align:center;
+
+/* 🔥 TRANSPARENT PRO */
+background:rgba(0,0,0,0.5);
+backdrop-filter:blur(10px);
+
+border-top:1px solid rgba(255,255,255,0.1);
+border-bottom:1px solid rgba(255,255,255,0.1);
+}
+
 /* HERO */
 
 .hero{
-display:flex;
-align-items:center;
-justify-content:center;
-gap:80px;
-padding:80px 40px;
+text-align:center;
+
+/* 🔥 DESCEND LE TEXTE (évite la tête) */
+padding:180px 20px 80px;
 }
 
-/* TEXTE GAUCHE */
-
-.hero-left{
-max-width:500px;
-}
-
-.hero-left h1{
+.hero h1{
 font-size:70px;
 margin:0;
 }
 
-.hero-left p{
+.hero p{
 opacity:0.8;
 margin-top:10px;
 }
+
+/* BOUTON */
 
 .btn{
 display:inline-block;
@@ -93,22 +100,6 @@ color:white;
 text-decoration:none;
 font-weight:bold;
 box-shadow:0 0 20px red;
-transition:0.3s;
-}
-
-.btn:hover{
-transform:scale(1.05);
-box-shadow:0 0 40px red;
-}
-
-/* IMAGE DROITE */
-
-.hero-img img{
-width:420px;
-border-radius:20px;
-
-/* 🔥 effet propre */
-box-shadow:0 0 50px rgba(255,0,0,0.5);
 }
 
 /* FEATURES */
@@ -122,46 +113,18 @@ flex-wrap:wrap;
 }
 
 .feature{
-background:#111;
+background:rgba(0,0,0,0.6);
 padding:25px;
-border-radius:15px;
+border-radius:12px;
 width:250px;
 text-align:center;
-transition:0.3s;
-}
-
-.feature:hover{
-transform:translateY(-10px);
-box-shadow:0 10px 30px black;
-}
-
-/* PANEL */
-
-.panel{
-display:none;
-margin:40px auto;
-width:80%;
-max-width:800px;
-
-background:linear-gradient(145deg,#8b0000,#400000);
-border-radius:15px;
-padding:30px;
-text-align:center;
-
-border:2px solid black;
-box-shadow:0 10px 40px black;
 }
 
 /* MOBILE */
 
 @media screen and (max-width:768px){
 .hero{
-flex-direction:column;
-text-align:center;
-}
-
-.hero-img img{
-width:300px;
+padding-top:140px;
 }
 }
 
@@ -184,21 +147,16 @@ width:300px;
 </div>
 </div>
 
+<!-- 🔥 PANEL ICI (JUSTE SOUS LE MENU) -->
+<div id="panel" class="panel"></div>
+
 <!-- HERO -->
 
 <div class="hero">
-
-<div class="hero-left">
 <h1>KIRNOS</h1>
 <p>Protection intelligente pour les lives TikTok</p>
 
 <a href="/connect" class="btn">Connecter TikTok</a>
-</div>
-
-<div class="hero-img">
-<img src="/static/kirnos.jpg">
-</div>
-
 </div>
 
 <!-- FEATURES -->
@@ -222,10 +180,6 @@ width:300px;
 
 </div>
 
-<!-- PANEL -->
-
-<div id="panel" class="panel"></div>
-
 <script>
 
 function openPanel(type){
@@ -233,19 +187,22 @@ function openPanel(type){
 let panel = document.getElementById("panel");
 panel.style.display = "block";
 
+/* SCROLL AUTO EN HAUT */
+window.scrollTo({top:0, behavior:'smooth'});
+
 if(type === "docs"){
 panel.innerHTML = `
-<h2>Documentation</h2>
+<h3>Documentation</h3>
 <p>Connexion TikTok</p>
-<p>Activation protections</p>
-<p>Configuration bot</p>
-<p>1 semaine gratuite puis abonnement</p>
+<p>Activation des protections</p>
+<p>Configuration du bot</p>
+<p>1 semaine gratuite</p>
 `;
 }
 
 if(type === "premium"){
 panel.innerHTML = `
-<h2>Premium</h2>
+<h3>Premium</h3>
 <p>1 mois : 10€</p>
 <p>3 mois : 30€</p>
 <p>6 mois : 50€</p>
@@ -255,16 +212,16 @@ panel.innerHTML = `
 
 if(type === "status"){
 panel.innerHTML = `
-<h2>Status</h2>
+<h3>Status</h3>
 <p>Serveur : En ligne</p>
-<p>API : OK</p>
+<p>API : Fonctionnelle</p>
 <p>Protection : Active</p>
 `;
 }
 
 if(type === "support"){
 panel.innerHTML = `
-<h2>Support</h2>
+<h3>Support</h3>
 <p><a href="https://discord.gg/72372NQEu" target="_blank">Discord</a></p>
 <p><a href="https://twitter.com/KIRNOS350102" target="_blank">Twitter</a></p>
 <p><a href="https://tiktok.com/@kirnos24" target="_blank">TikTok</a></p>

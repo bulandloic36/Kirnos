@@ -94,15 +94,3 @@ def tiktok_callback(code: str):
 
     return token_data
 
-
-@app.get("/docs", response_class=HTMLResponse)
-async def docs(request: Request):
-    return templates.TemplateResponse("docs.html", {"request": request})
-
-@app.get("/status", response_class=HTMLResponse)
-async def status(request: Request):
-    return templates.TemplateResponse("status.html", {"request": request})
-
-@app.get("/support", response_class=HTMLResponse)
-async def support(request: Request):
-    return templates.TemplateResponse("support.html", {"request": request})

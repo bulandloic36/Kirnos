@@ -8,30 +8,21 @@
 
 <style>
 
-html{scroll-behavior:smooth;}
+/* GLOBAL */
 
 body{
 margin:0;
 font-family:Arial;
 color:white;
 
-/* ✅ JUSTE IMAGE (plus de voile) */
+/* 🔥 IMAGE CLEAN + DESCENDUE */
 background:url("/static/kirnos.jpg");
-
 background-size:cover;
-
-/* 🔥 DESCENDRE L’IMAGE */
-background-position:center 60%;
-
+background-position:center 65%;
 background-repeat:no-repeat;
 }
 
-@keyframes bgmove{
-0%{background-position:left;}
-100%{background-position:right;}
-}
-
-/* MENU */
+/* TOPBAR */
 
 .topbar{
 display:flex;
@@ -55,29 +46,28 @@ gap:30px;
 color:white;
 text-decoration:none;
 cursor:pointer;
+opacity:0.8;
+}
+
+.menu a:hover{
+opacity:1;
+color:#ff2a2a;
 }
 
 /* HERO */
 
 .hero{
-display:flex;
-justify-content:center;
-gap:80px;
-padding:80px 40px;
+text-align:center;
+padding:100px 20px;
 }
 
-.hero-left h1{
+.hero h1{
 font-size:70px;
 margin:0;
 }
 
-.btn{
-margin-top:20px;
-padding:15px 35px;
-background:#ff2a2a;
-border-radius:30px;
-color:white;
-text-decoration:none;
+.hero p{
+opacity:0.8;
 }
 
 /* FEATURES */
@@ -91,67 +81,40 @@ flex-wrap:wrap;
 }
 
 .feature{
-background:#111;
+background:rgba(0,0,0,0.6);
 padding:25px;
 border-radius:12px;
 width:250px;
 text-align:center;
 }
 
-/* MODAL */
+/* 🔥 PANEL (LE TRUC ROUGE EN DESSOUS) */
 
-.modal{
+.panel{
 display:none;
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.8);
-justify-content:center;
-align-items:center;
-}
+margin:40px auto;
+width:80%;
+max-width:800px;
 
-.box{
 background:linear-gradient(145deg,#8b0000,#400000);
-color:white;
-padding:30px;
 border-radius:15px;
+padding:30px;
 text-align:center;
-width:350px;
 
+/* contour noir */
 border:2px solid black;
 
 box-shadow:
-0 5px 25px rgba(0,0,0,0.95),
-inset 0 0 10px rgba(0,0,0,0.5);
+0 10px 40px rgba(0,0,0,0.9);
 }
 
-.box a{
-display:block;
-margin:10px 0;
-color:white;
-text-decoration:none;
-font-weight:bold;
+/* MOBILE */
+
+@media screen and (max-width:768px){
+.menu{
+flex-direction:column;
+gap:10px;
 }
-
-button{
-margin-top:15px;
-padding:8px 15px;
-border:none;
-border-radius:8px;
-cursor:pointer;
-}
-
-/* DOC SOUS MENU */
-
-.doc-content{
-display:none;
-margin-top:15px;
-}
-
-.doc-content.active{
-display:block;
 }
 
 </style>
@@ -160,139 +123,99 @@ display:block;
 
 <body>
 
-<!-- MENU -->
+<!-- TOPBAR -->
 
 <div class="topbar">
 <div class="logo">KIRNOS</div>
 
 <div class="menu">
-<a onclick="openDocs()">Documentation</a>
-<a onclick="openPremium()">Premium</a>
-<a onclick="openStatus()">Status</a>
-<a onclick="openSupport()">Support</a>
+<a onclick="openPanel('docs')">Documentation</a>
+<a onclick="openPanel('premium')">Premium</a>
+<a onclick="openPanel('status')">Status</a>
+<a onclick="openPanel('support')">Support</a>
 </div>
 </div>
 
 <!-- HERO -->
 
 <div class="hero">
-<div class="hero-left">
 <h1>KIRNOS</h1>
 <p>Protection intelligente pour les lives TikTok</p>
-<a href="/connect" class="btn">Connecter TikTok</a>
-</div>
 </div>
 
 <!-- FEATURES -->
 
 <div class="features">
-<div class="feature"><h3>IA Anti Troll</h3><p>Protection automatique</p></div>
-<div class="feature"><h3>Anti Raid</h3><p>Blocage des attaques</p></div>
-<div class="feature"><h3>Dashboard</h3><p>Stats en direct</p></div>
+
+<div class="feature">
+<h3>IA Anti Troll</h3>
+<p>Protection automatique</p>
 </div>
 
-<!-- DOCUMENTATION -->
-
-<div id="docs" class="modal">
-<div class="box">
-
-<h2>Documentation</h2>
-
-<a onclick="showDoc('doc1')">Utilisation</a>
-<a onclick="showDoc('doc2')">Fonctionnalités</a>
-<a onclick="showDoc('doc3')">Abonnement</a>
-
-<div id="doc1" class="doc-content">
-<p>Connecte ton compte puis lance ton live.</p>
+<div class="feature">
+<h3>Anti Raid</h3>
+<p>Blocage des attaques</p>
 </div>
 
-<div id="doc2" class="doc-content">
-<p>Anti insultes, anti raid, modération automatique.</p>
+<div class="feature">
+<h3>Dashboard</h3>
+<p>Stats en direct</p>
 </div>
 
-<div id="doc3" class="doc-content">
-<p>1 semaine gratuite puis abonnement.</p>
 </div>
 
-<button onclick="closeDocs()">Fermer</button>
+<!-- 🔥 PANEL DYNAMIQUE -->
 
-</div>
-</div>
-
-<!-- PREMIUM -->
-
-<div id="premium" class="modal">
-<div class="box">
-
-<h2>Premium</h2>
-
-<p>1 mois : 10€</p>
-<p>3 mois : 30€</p>
-<p>6 mois : 50€</p>
-
-<br>
-
-<p>Paiement :</p>
-<p>Carte bancaire</p>
-<p>PayPal</p>
-
-<button onclick="closePremium()">Fermer</button>
-
-</div>
-</div>
-
-<!-- STATUS -->
-
-<div id="status" class="modal">
-<div class="box">
-
-<h2>Status</h2>
-
-<p>Serveur : En ligne</p>
-<p>API TikTok : Fonctionnelle</p>
-<p>Protection : Active</p>
-
-<button onclick="closeStatus()">Fermer</button>
-
-</div>
-</div>
-
-<!-- SUPPORT -->
-
-<div id="support" class="modal">
-<div class="box">
-
-<h2>Support</h2>
-
-<a href="https://discord.gg/72372NQEu" target="_blank">Discord</a>
-<a href="https://twitter.com/KIRNOS350102" target="_blank">Twitter / X</a>
-<a href="https://tiktok.com/@kirnos24" target="_blank">TikTok</a>
-<a href="https://wa.me/33743260248" target="_blank">WhatsApp</a>
-
-<button onclick="closeSupport()">Fermer</button>
-
-</div>
-</div>
-
-<!-- SCRIPT -->
+<div id="panel" class="panel"></div>
 
 <script>
 
-function openDocs(){document.getElementById("docs").style.display="flex";}
-function closeDocs(){document.getElementById("docs").style.display="none";}
+function openPanel(type){
 
-function openPremium(){document.getElementById("premium").style.display="flex";}
-function closePremium(){document.getElementById("premium").style.display="none";}
+let panel = document.getElementById("panel");
 
-function openStatus(){document.getElementById("status").style.display="flex";}
-function closeStatus(){document.getElementById("status").style.display="none";}
+panel.style.display = "block";
 
-function openSupport(){document.getElementById("support").style.display="flex";}
-function closeSupport(){document.getElementById("support").style.display="none";}
+if(type === "docs"){
+panel.innerHTML = `
+<h2>Documentation</h2>
+<p>Connexion au bot TikTok</p>
+<p>Activation des protections</p>
+<p>Configuration du chat</p>
+<p>1 semaine gratuite puis abonnement</p>
+`;
+}
 
-function showDoc(id){
-document.querySelectorAll(".doc-content").forEach(el=>el.classList.remove("active"));
-document.getElementById(id).classList.add("active");
+if(type === "premium"){
+panel.innerHTML = `
+<h2>Premium</h2>
+<p>1 mois : 10€</p>
+<p>3 mois : 30€</p>
+<p>6 mois : 50€</p>
+<br>
+<p>Paiement : Carte bancaire / PayPal</p>
+`;
+}
+
+if(type === "status"){
+panel.innerHTML = `
+<h2>Status</h2>
+<p>Serveur : En ligne</p>
+<p>API TikTok : Fonctionnelle</p>
+<p>Protection : Active</p>
+`;
+}
+
+if(type === "support"){
+panel.innerHTML = `
+<h2>Support</h2>
+<p><a href="https://discord.gg/72372NQEu" target="_blank">Discord</a></p>
+<p><a href="https://twitter.com/KIRNOS350102" target="_blank">Twitter / X</a></p>
+<p><a href="https://tiktok.com/@kirnos24" target="_blank">TikTok</a></p>
+<p><a href="https://wa.me/33743260248" target="_blank">WhatsApp</a></p>
+`;
+}
+
 }
 
 </script>

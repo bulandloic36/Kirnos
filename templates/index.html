@@ -8,16 +8,16 @@
 
 <style>
 
-/* 🔥 FOND DEGRADE PRO */
+/* 🔥 FOND DEGRADE */
 
 body{
 margin:0;
 font-family:Arial;
 color:white;
 
-background:linear-gradient(120deg,#000000,#1a0000,#5a0000,#000000);
+background:linear-gradient(120deg,#000,#1a0000,#5a0000,#000);
 background-size:400% 400%;
-animation:bgmove 10s infinite alternate;
+animation:bgmove 12s infinite alternate;
 }
 
 @keyframes bgmove{
@@ -35,9 +35,9 @@ padding:20px 40px;
 }
 
 .logo{
-font-size:24px;
-font-weight:bold;
 color:#ff2a2a;
+font-weight:bold;
+font-size:24px;
 }
 
 .menu{
@@ -47,8 +47,8 @@ gap:30px;
 
 .menu a{
 cursor:pointer;
-text-decoration:none;
 color:white;
+text-decoration:none;
 opacity:0.8;
 }
 
@@ -56,22 +56,19 @@ opacity:0.8;
 color:#ff2a2a;
 }
 
-/* 🔥 BARRE DÉROULANTE */
+/* 🔥 VOLET (petit, propre) */
 
 .dropdown{
-max-height:0;
-overflow:hidden;
-transition:0.4s;
+display:none;
+position:absolute;
+top:70px;
+right:40px;
 
-background:rgba(0,0,0,0.6);
-backdrop-filter:blur(10px);
+background:rgba(0,0,0,0.8);
+padding:20px 30px;
+border-radius:10px;
 
-text-align:center;
-}
-
-.dropdown.active{
-max-height:300px;
-padding:20px;
+box-shadow:0 0 20px rgba(255,0,0,0.5);
 }
 
 /* HERO */
@@ -85,6 +82,8 @@ padding:80px 40px;
 flex-wrap:wrap;
 }
 
+/* TEXTE */
+
 .hero-left{
 max-width:500px;
 }
@@ -95,23 +94,22 @@ margin:0;
 }
 
 .btn{
-display:inline-block;
 margin-top:20px;
+display:inline-block;
 padding:15px 35px;
 background:#ff2a2a;
 border-radius:30px;
 color:white;
 text-decoration:none;
 font-weight:bold;
-box-shadow:0 0 15px red;
 }
 
-/* IMAGE */
+/* IMAGE À DROITE */
 
 .hero-img img{
 width:420px;
 border-radius:20px;
-box-shadow:0 0 30px rgba(255,0,0,0.5);
+box-shadow:0 0 30px red;
 }
 
 /* FEATURES */
@@ -132,17 +130,6 @@ width:250px;
 text-align:center;
 }
 
-/* MOBILE */
-
-@media screen and (max-width:768px){
-
-.hero{
-flex-direction:column;
-text-align:center;
-}
-
-}
-
 </style>
 
 </head>
@@ -156,57 +143,26 @@ text-align:center;
 <div class="logo">KIRNOS</div>
 
 <div class="menu">
-<a onclick="toggle('docs')">Documentation</a>
-<a onclick="toggle('premium')">Premium</a>
-<a onclick="toggle('status')">Status</a>
-<a onclick="toggle('support')">Support</a>
+<a onclick="toggleMenu('docs')">Documentation</a>
+<a onclick="toggleMenu('premium')">Premium</a>
+<a onclick="toggleMenu('status')">Status</a>
+<a onclick="toggleMenu('support')">Support</a>
 </div>
 
 </div>
 
-<!-- 🔥 DROPDOWNS -->
+<!-- 🔥 VOLET UNIQUE -->
 
-<div id="docs" class="dropdown">
-<h3>Documentation</h3>
-<p>Connexion TikTok</p>
-<p>Configuration</p>
-<p>Protection live</p>
-</div>
-
-<div id="premium" class="dropdown">
-<h3>Premium</h3>
-<p>1 mois : 10€</p>
-<p>3 mois : 30€</p>
-<p>6 mois : 50€</p>
-<p>Carte / PayPal</p>
-</div>
-
-<div id="status" class="dropdown">
-<h3>Status</h3>
-<p>Serveur : En ligne</p>
-<p>API : Fonctionnelle</p>
-<p>Protection : Active</p>
-</div>
-
-<div id="support" class="dropdown">
-<h3>Support</h3>
-<p>Discord</p>
-<p>Twitter / X</p>
-<p>TikTok</p>
-<p>WhatsApp</p>
-</div>
+<div id="dropdown" class="dropdown"></div>
 
 <!-- HERO -->
 
 <div class="hero">
 
 <div class="hero-left">
-
 <h1>KIRNOS</h1>
 <p>Protection intelligente pour les lives TikTok</p>
-
 <a href="/connect" class="btn">Connecter TikTok</a>
-
 </div>
 
 <div class="hero-img">
@@ -238,20 +194,61 @@ text-align:center;
 
 <script>
 
-/* 🔥 TOGGLE PRO */
+let current = null;
 
-function toggle(id){
+function toggleMenu(type){
 
-let all = document.querySelectorAll(".dropdown");
+let box = document.getElementById("dropdown");
 
-all.forEach(el=>{
-if(el.id !== id){
-el.classList.remove("active");
+/* toggle fermer */
+if(current === type){
+box.style.display = "none";
+current = null;
+return;
 }
-});
 
-let element = document.getElementById(id);
-element.classList.toggle("active");
+current = type;
+box.style.display = "block";
+
+/* contenu */
+
+if(type === "docs"){
+box.innerHTML = `
+<h3>Documentation</h3>
+<p>Connexion TikTok</p>
+<p>Configuration</p>
+<p>Protection live</p>
+`;
+}
+
+if(type === "premium"){
+box.innerHTML = `
+<h3>Premium</h3>
+<p>1 mois : 10€</p>
+<p>3 mois : 30€</p>
+<p>6 mois : 50€</p>
+<p>Carte / PayPal</p>
+`;
+}
+
+if(type === "status"){
+box.innerHTML = `
+<h3>Status</h3>
+<p>Serveur : En ligne</p>
+<p>API : Fonctionnelle</p>
+<p>Protection : Active</p>
+`;
+}
+
+if(type === "support"){
+box.innerHTML = `
+<h3>Support</h3>
+<p>Discord</p>
+<p>Twitter / X</p>
+<p>TikTok</p>
+<p>WhatsApp</p>
+`;
+}
 
 }
 

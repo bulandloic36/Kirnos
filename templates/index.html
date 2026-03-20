@@ -110,19 +110,7 @@ width:250px;
 text-align:center;
 }
 
-/* SECTION DOC */
-
-.section{
-padding:80px 20px;
-text-align:center;
-}
-
-.section h2{
-color:#ff2a2a;
-margin-bottom:20px;
-}
-
-/* POPUP */
+/* MODAL */
 
 .modal{
 display:none;
@@ -138,12 +126,13 @@ z-index:999;
 }
 
 .modal-box{
-background:#111;
+background:#8b0000;
+color:white;
 padding:30px;
 border-radius:15px;
 text-align:center;
 box-shadow:0 0 40px red;
-width:300px;
+width:320px;
 }
 
 .modal-box a{
@@ -151,10 +140,20 @@ display:block;
 margin:10px 0;
 color:white;
 text-decoration:none;
+font-weight:bold;
 }
 
 .modal-box a:hover{
-color:#ff2a2a;
+color:#ffcccc;
+}
+
+button{
+background:white;
+color:black;
+border:none;
+padding:8px 15px;
+border-radius:8px;
+cursor:pointer;
 }
 
 </style>
@@ -169,7 +168,8 @@ color:#ff2a2a;
 <div class="logo">KIRNOS</div>
 
 <div class="menu">
-<a href="#docs">Documentation</a>
+<a onclick="openDocs()">Documentation</a>
+<a onclick="openPremium()">Premium</a>
 <a onclick="openStatus()">Status</a>
 <a onclick="openSupport()">Support</a>
 </div>
@@ -214,43 +214,70 @@ color:#ff2a2a;
 
 <!-- DOCUMENTATION -->
 
-<div class="section" id="docs">
+<div id="docsModal" class="modal">
+<div class="modal-box">
+
 <h2>Documentation</h2>
 
 <p>Kirnos protège automatiquement tes lives TikTok.</p>
 
-<br>
-
-<p><b>Fonctionnalités :</b></p>
-<p>✔ Anti insultes</p>
-<p>✔ Anti raid</p>
-<p>✔ Modération automatique</p>
+<p>Fonctionnalités :</p>
+<p>Anti insultes</p>
+<p>Anti raid</p>
+<p>Modération automatique</p>
 
 <br>
 
-<p><b>Comment utiliser :</b></p>
-<p>1. Connecte ton TikTok</p>
+<p>Comment utiliser :</p>
+<p>1. Connecte ton compte</p>
 <p>2. Lance ton live</p>
 <p>3. Le bot protège automatiquement</p>
 
 <br>
 
-<p><b>Offre :</b></p>
-<p>✅ 1 semaine gratuite</p>
-<p>💰 Ensuite 10€/mois</p>
+<p>Offre :</p>
+<p>1 semaine gratuite</p>
+<p>10€/mois ensuite</p>
+
+<br>
+<button onclick="closeDocs()">Fermer</button>
 
 </div>
+</div>
 
-<!-- STATUS POPUP -->
+<!-- PREMIUM -->
+
+<div id="premiumModal" class="modal">
+<div class="modal-box">
+
+<h2>Premium</h2>
+
+<p>Abonnement Kirnos</p>
+
+<p>10€ / mois</p>
+
+<br>
+
+<p>Paiement :</p>
+<p>Carte bancaire</p>
+<p>PayPal</p>
+
+<br>
+<button onclick="closePremium()">Fermer</button>
+
+</div>
+</div>
+
+<!-- STATUS -->
 
 <div id="statusModal" class="modal">
 <div class="modal-box">
 
-<h2 style="color:#ff2a2a;">Status</h2>
+<h2>Status</h2>
 
-<p>🟢 Serveur : En ligne</p>
-<p>🟢 API TikTok : Fonctionnelle</p>
-<p>🟢 Protection : Active</p>
+<p>Serveur : En ligne</p>
+<p>API TikTok : Fonctionnelle</p>
+<p>Protection : Active</p>
 
 <br>
 <button onclick="closeStatus()">Fermer</button>
@@ -258,17 +285,17 @@ color:#ff2a2a;
 </div>
 </div>
 
-<!-- SUPPORT POPUP -->
+<!-- SUPPORT -->
 
 <div id="supportModal" class="modal">
 <div class="modal-box">
 
-<h2 style="color:#ff2a2a;">Support</h2>
+<h2>Support</h2>
 
-<a href="https://discord.gg/72372NQEu" target="_blank">💬 Discord</a>
-<a href="https://tiktok.com/@kirnos24" target="_blank">🎵 TikTok</a>
-<a href="https://wa.me/33743260248" target="_blank">📱 WhatsApp</a>
-<a href="https://twitter.com/KIRNOS350102" target="_blank">🐦 Twitter/X</a>
+<a href="https://discord.gg/72372NQEu" target="_blank">Discord</a>
+<a href="https://twitter.com/KIRNOS350102" target="_blank">Twitter / X</a>
+<a href="https://tiktok.com/@kirnos24" target="_blank">TikTok</a>
+<a href="https://wa.me/33743260248" target="_blank">WhatsApp</a>
 
 <br>
 <button onclick="closeSupport()">Fermer</button>
@@ -280,21 +307,17 @@ color:#ff2a2a;
 
 <script>
 
-function openStatus(){
-document.getElementById("statusModal").style.display = "flex";
-}
+function openDocs(){document.getElementById("docsModal").style.display="flex";}
+function closeDocs(){document.getElementById("docsModal").style.display="none";}
 
-function closeStatus(){
-document.getElementById("statusModal").style.display = "none";
-}
+function openPremium(){document.getElementById("premiumModal").style.display="flex";}
+function closePremium(){document.getElementById("premiumModal").style.display="none";}
 
-function openSupport(){
-document.getElementById("supportModal").style.display = "flex";
-}
+function openStatus(){document.getElementById("statusModal").style.display="flex";}
+function closeStatus(){document.getElementById("statusModal").style.display="none";}
 
-function closeSupport(){
-document.getElementById("supportModal").style.display = "none";
-}
+function openSupport(){document.getElementById("supportModal").style.display="flex";}
+function closeSupport(){document.getElementById("supportModal").style.display="none";}
 
 </script>
 

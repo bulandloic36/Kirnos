@@ -1,15 +1,101 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
+
+<meta charset="UTF-8">
 <title>KIRNOS</title>
+
+<style>
+
+/* ===== BASE ===== */
+
+body{
+margin:0;
+font-family:'Segoe UI',sans-serif;
+background:#0b0b0b;
+color:white;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+overflow:hidden;
+}
+
+/* ===== BACKGROUND ANIM ===== */
+
+body::before{
+content:"";
+position:absolute;
+width:100%;
+height:100%;
+background:radial-gradient(circle at 50% 50%, rgba(255,0,0,0.2), transparent 60%);
+animation: glow 5s infinite alternate;
+z-index:-1;
+}
+
+@keyframes glow{
+0%{opacity:0.4;}
+100%{opacity:1;}
+}
+
+/* ===== CONTAINER ===== */
+
+.container{
+text-align:center;
+}
+
+/* ===== TITLE ===== */
+
+h1{
+font-size:80px;
+margin:0;
+letter-spacing:5px;
+color:white;
+text-shadow:0 0 20px red;
+}
+
+/* ===== SUB ===== */
+
+p{
+opacity:0.7;
+margin-top:10px;
+font-size:18px;
+}
+
+/* ===== BUTTON ===== */
+
+.btn{
+margin-top:30px;
+display:inline-block;
+padding:15px 40px;
+background:red;
+border-radius:40px;
+color:white;
+text-decoration:none;
+font-weight:bold;
+box-shadow:0 0 20px red;
+transition:0.3s;
+}
+
+.btn:hover{
+transform:scale(1.1);
+box-shadow:0 0 40px red;
+}
+
+</style>
+
 </head>
 
-<body style="background:#0b0b0b;color:white;text-align:center;">
+<body>
+
+<div class="container">
 
 <h1>KIRNOS</h1>
-<p>Protection TikTok</p>
+<p>Protection intelligente pour les lives TikTok</p>
 
-<a href="/dashboard">Accéder au Dashboard</a>
+<a href="/dashboard" class="btn">Accéder au Dashboard</a>
+
+</div>
 
 </body>
 </html>

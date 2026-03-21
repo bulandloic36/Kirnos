@@ -75,10 +75,10 @@ def success(request: Request):
 
     # ===== DOCUMENTATION =====
 @app.get("/documentation", response_class=HTMLResponse)
-async def docs(request: Request):
+async def docs_page(request: Request):
     return templates.TemplateResponse("docs.html", {"request": request})
 
 # ===== FAQ =====
 @app.get("/faq", response_class=HTMLResponse)
-async def faq(request: Request):
+async def faq_page(request: Request):
     return templates.TemplateResponse("faq.html", {"request": request})

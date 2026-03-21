@@ -74,7 +74,7 @@ def success(request: Request):
     return RedirectResponse("/dashboard")
 
     # ===== DOCUMENTATION =====
-@app.get("/docs", response_class=HTMLResponse)
+@app.get("/documentation", response_class=HTMLResponse)
 async def docs(request: Request):
     return templates.TemplateResponse("docs.html", {"request": request})
 

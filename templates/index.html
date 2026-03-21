@@ -8,13 +8,30 @@
 
 <style>
 
-/* ===== GLOBAL ===== */
+/* ===== RESET ===== */
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
 
 body{
-margin:0;
 font-family:'Segoe UI',sans-serif;
+background:#0b0b0b;
 color:white;
-background:radial-gradient(circle at top,#1a0000,#000);
+overflow:hidden;
+}
+
+/* ===== BACKGROUND ANIM ===== */
+
+.bg{
+position:fixed;
+width:100%;
+height:100%;
+background:radial-gradient(circle at 30% 20%,#ff000022,transparent),
+radial-gradient(circle at 70% 80%,#ff000022,transparent);
+z-index:-1;
 }
 
 /* ===== NAVBAR ===== */
@@ -26,200 +43,140 @@ align-items:center;
 padding:20px 60px;
 position:fixed;
 width:100%;
+background:rgba(0,0,0,0.6);
+backdrop-filter:blur(12px);
 z-index:1000;
-background:rgba(0,0,0,0.5);
-backdrop-filter:blur(15px);
 }
 
 .logo{
 color:#ff2a2a;
-font-size:26px;
 font-weight:bold;
+font-size:22px;
 }
 
-/* MENU */
-
-.nav-links{
+.menu{
 display:flex;
-gap:30px;
+gap:25px;
 }
 
-.nav-item{
+.menu-item{
 position:relative;
 cursor:pointer;
 opacity:0.8;
 transition:0.3s;
 }
 
-.nav-item:hover{
+.menu-item:hover{
 opacity:1;
 color:#ff2a2a;
 }
 
-/* DROPDOWN PRO */
+/* ===== DROPDOWN ===== */
 
 .dropdown{
 display:none;
 position:absolute;
-top:35px;
+top:30px;
 left:0;
-background:rgba(15,15,15,0.95);
-border-radius:12px;
+background:#111;
+border-radius:10px;
 padding:10px;
 min-width:200px;
-box-shadow:0 15px 50px rgba(0,0,0,0.8);
-animation:fade 0.2s ease;
+box-shadow:0 10px 40px rgba(0,0,0,0.8);
 }
 
 .dropdown a{
 display:block;
-padding:12px;
-border-radius:8px;
+padding:10px;
+border-radius:6px;
 color:white;
 text-decoration:none;
-transition:0.2s;
 }
 
 .dropdown a:hover{
-background:rgba(255,255,255,0.05);
-transform:translateX(5px);
-}
-
-/* ANIMATION */
-
-@keyframes fade{
-from{opacity:0; transform:translateY(-10px);}
-to{opacity:1; transform:translateY(0);}
+background:#222;
 }
 
 /* ===== HERO ===== */
 
-.hero{
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:120px 100px 0 100px;
+.container{
 height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+gap:80px;
+padding:0 100px;
 }
 
-.hero-left h1{
-font-size:90px;
-margin:0;
+/* LEFT */
+
+.left{
+max-width:500px;
 }
 
-.hero-left p{
+.left h1{
+font-size:70px;
+margin-bottom:10px;
+}
+
+.left p{
 opacity:0.7;
-margin-top:10px;
-font-size:18px;
+margin-bottom:25px;
 }
+
+/* BUTTON */
 
 .btn{
-margin-top:25px;
-padding:15px 40px;
+padding:15px 35px;
 background:#ff2a2a;
-border-radius:40px;
+border-radius:30px;
 text-decoration:none;
 color:white;
 font-weight:bold;
-box-shadow:0 0 30px red;
+box-shadow:0 0 25px red;
 transition:0.3s;
-display:inline-block;
 }
 
 .btn:hover{
 transform:scale(1.1);
 }
 
-/* IMAGE */
+/* RIGHT IMAGE */
 
-.hero-img img{
-width:450px;
+.right img{
+width:420px;
 border-radius:20px;
-box-shadow:0 0 70px rgba(255,0,0,0.8);
-transition:0.3s;
+box-shadow:0 0 60px rgba(255,0,0,0.6);
 }
 
-.hero-img img:hover{
-transform:scale(1.03);
-}
+/* ===== FLOAT PANEL ===== */
 
-/* ===== SECTIONS ===== */
-
-.section{
-padding:80px 100px;
-}
-
-.title{
-font-size:40px;
-margin-bottom:30px;
-}
-
-/* ===== CARDS ===== */
-
-.cards{
+.panel{
+position:absolute;
+bottom:40px;
+left:50%;
+transform:translateX(-50%);
 display:flex;
-gap:30px;
+gap:20px;
 }
 
-.card{
-flex:1;
-background:rgba(20,20,20,0.9);
-padding:30px;
-border-radius:15px;
-transition:0.3s;
-}
+/* CARDS */
 
-.card:hover{
-transform:translateY(-10px);
-box-shadow:0 0 50px red;
-}
-
-/* ===== PREMIUM ===== */
-
-.pricing{
-display:flex;
-gap:30px;
-}
-
-.plan{
-flex:1;
-padding:30px;
+.box{
 background:#111;
-border-radius:15px;
+padding:20px;
+border-radius:12px;
+width:200px;
 text-align:center;
 transition:0.3s;
 }
 
-.plan:hover{
-box-shadow:0 0 40px red;
-transform:scale(1.05);
-}
-
-.plan button{
-margin-top:20px;
-padding:12px 30px;
-background:#ff2a2a;
-border:none;
-border-radius:20px;
-color:white;
-cursor:pointer;
-font-weight:bold;
-transition:0.3s;
-}
-
-.plan button:hover{
-transform:scale(1.1);
+.box:hover{
+transform:translateY(-10px);
+box-shadow:0 0 30px red;
 }
 
 /* ===== STATUS ===== */
-
-.status-box{
-padding:25px;
-background:#111;
-border-radius:12px;
-display:inline-block;
-box-shadow:0 0 20px rgba(255,0,0,0.3);
-}
 
 .online{color:#00ff00;}
 .offline{color:red;}
@@ -230,16 +187,18 @@ box-shadow:0 0 20px rgba(255,0,0,0.3);
 
 <body>
 
-<!-- ===== NAVBAR ===== -->
+<div class="bg"></div>
+
+<!-- NAVBAR -->
 
 <div class="navbar">
 
 <div class="logo">KIRNOS</div>
 
-<div class="nav-links">
+<div class="menu">
 
-<div class="nav-item" onclick="toggle('docs')">
-Documentation ▾
+<div class="menu-item" onclick="toggle('docs')">
+Documentation
 <div id="docs" class="dropdown">
 <a>📌 À quoi ça sert</a>
 <a>⚙️ Comment utiliser</a>
@@ -247,159 +206,113 @@ Documentation ▾
 </div>
 </div>
 
-<div class="nav-item" onclick="toggle('premiumMenu')">
-Premium ▾
-<div id="premiumMenu" class="dropdown">
+<div class="menu-item" onclick="toggle('premium')">
+Premium
+<div id="premium" class="dropdown">
 <a>7 jours gratuits</a>
-<a>1 mois : 10€</a>
-<a>3 mois : 30€</a>
-<a>6 mois : 50€</a>
+<a onclick="buy('1m')">1 mois - 10€</a>
+<a onclick="buy('3m')">3 mois - 30€</a>
+<a onclick="buy('6m')">6 mois - 50€</a>
 </div>
 </div>
 
-<div class="nav-item" onclick="toggle('statusMenu')">
-Status ▾
-<div id="statusMenu" class="dropdown">
-<a id="botStatus">Chargement...</a>
+<div class="menu-item" onclick="toggle('status')">
+Status
+<div id="status" class="dropdown">
+<a id="statusText">Chargement...</a>
 </div>
 </div>
 
-<div class="nav-item" onclick="toggle('supportMenu')">
-Support ▾
-<div id="supportMenu" class="dropdown">
+<div class="menu-item" onclick="toggle('support')">
+Support
+<div id="support" class="dropdown">
 <a href="https://discord.gg/72372NQEu" target="_blank">Discord</a>
-<a href="https://twitter.com/KIRNOS350102" target="_blank">Twitter</a>
-<a href="https://tiktok.com/@kirnos24" target="_blank">TikTok</a>
-<a href="https://wa.me/33743260248" target="_blank">WhatsApp</a>
+<a href="https://twitter.com" target="_blank">Twitter</a>
+<a href="https://tiktok.com" target="_blank">TikTok</a>
+<a href="https://wa.me" target="_blank">WhatsApp</a>
 </div>
 </div>
 
 </div>
+
 </div>
 
-<!-- ===== HERO ===== -->
+<!-- HERO -->
 
-<div class="hero">
+<div class="container">
 
-<div class="hero-left">
+<div class="left">
 <h1>KIRNOS</h1>
 <p>Protection intelligente pour les lives TikTok</p>
 <a href="/connect" class="btn">Connecter TikTok</a>
 </div>
 
-<div class="hero-img">
+<div class="right">
 <img src="/static/kirnos.jpg">
 </div>
 
 </div>
 
-<!-- ===== FEATURES ===== -->
+<!-- FEATURES FLOAT -->
 
-<div class="section">
-<div class="title">Fonctionnalités</div>
+<div class="panel">
 
-<div class="cards">
-<div class="card"><h3>IA Anti Troll</h3><p>Blocage automatique</p></div>
-<div class="card"><h3>Anti Raid</h3><p>Protection en temps réel</p></div>
-<div class="card"><h3>Dashboard</h3><p>Statistiques live</p></div>
-</div>
+<div class="box">
+<h3>IA Anti Troll</h3>
+<p>Blocage auto</p>
 </div>
 
-<!-- ===== PREMIUM ===== -->
-
-<div class="section">
-<div class="title">Premium</div>
-
-<div class="pricing">
-
-<div class="plan">
-<h2>1 mois</h2>
-<p>10€</p>
-<button onclick="buy('1m')">Acheter</button>
+<div class="box">
+<h3>Anti Raid</h3>
+<p>Sécurité live</p>
 </div>
 
-<div class="plan">
-<h2>3 mois</h2>
-<p>30€</p>
-<button onclick="buy('3m')">Acheter</button>
-</div>
-
-<div class="plan">
-<h2>6 mois</h2>
-<p>50€</p>
-<button onclick="buy('6m')">Acheter</button>
-</div>
-
-</div>
-</div>
-
-<!-- ===== STATUS ===== -->
-
-<div class="section">
-<div class="title">Status</div>
-
-<div class="status-box">
-<p id="botStatusText">Chargement...</p>
+<div class="box">
+<h3>Dashboard</h3>
+<p>Stats temps réel</p>
 </div>
 
 </div>
 
-<!-- ===== SUPPORT ===== -->
-
-<div class="section">
-<div class="title">Support</div>
-
-<p><a href="https://discord.gg/72372NQEu" target="_blank">Discord</a></p>
-<p><a href="https://twitter.com/KIRNOS350102" target="_blank">Twitter</a></p>
-<p><a href="https://tiktok.com/@kirnos24" target="_blank">TikTok</a></p>
-<p><a href="https://wa.me/33743260248" target="_blank">WhatsApp</a></p>
-
-</div>
-
-<!-- ===== JS ===== -->
+<!-- JS -->
 
 <script>
 
-/* DROPDOWN */
+/* MENU */
 
 function toggle(id){
 
 let all = document.querySelectorAll('.dropdown');
 
-all.forEach(menu=>{
-if(menu.id !== id){
-menu.style.display = "none";
-}
+all.forEach(el=>{
+if(el.id !== id) el.style.display="none";
 });
 
 let current = document.getElementById(id);
+current.style.display = current.style.display==="block" ? "none":"block";
 
-current.style.display = current.style.display === "block" ? "none" : "block";
-}
-
-/* STRIPE */
-
-async function buy(plan) {
-const res = await fetch(`/create-checkout-session/${plan}`);
-const data = await res.json();
-window.location.href = data.url;
 }
 
 /* STATUS */
 
-let botOnline = true;
+let online = true;
 
-let s1 = document.getElementById("botStatus");
-let s2 = document.getElementById("botStatusText");
+let s = document.getElementById("statusText");
 
-if(botOnline){
-s1.innerHTML = "🟢 Bot en ligne";
-s2.innerHTML = "🟢 Bot en ligne";
-s2.classList.add("online");
+if(online){
+s.innerHTML="🟢 Bot en ligne";
+s.classList.add("online");
 }else{
-s1.innerHTML = "🔴 Bot hors ligne";
-s2.innerHTML = "🔴 Bot hors ligne";
-s2.classList.add("offline");
+s.innerHTML="🔴 Bot hors ligne";
+s.classList.add("offline");
+}
+
+/* STRIPE */
+
+async function buy(plan){
+const res = await fetch(`/create-checkout-session/${plan}`);
+const data = await res.json();
+window.location.href = data.url;
 }
 
 </script>

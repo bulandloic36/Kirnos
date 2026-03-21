@@ -72,3 +72,13 @@ def success(request: Request):
     user = request.session.get("user")
     premium_users[user] = True
     return RedirectResponse("/dashboard")
+
+    # ===== DOCUMENTATION =====
+@app.get("/docs", response_class=HTMLResponse)
+async def docs(request: Request):
+    return templates.TemplateResponse("docs.html", {"request": request})
+
+# ===== FAQ =====
+@app.get("/faq", response_class=HTMLResponse)
+async def faq(request: Request):
+    return templates.TemplateResponse("faq.html", {"request": request})

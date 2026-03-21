@@ -8,7 +8,7 @@
 
 <style>
 
-/* 🔥 FOND DEGRADE */
+/* 🔥 FOND */
 
 body{
 margin:0;
@@ -40,35 +40,47 @@ font-weight:bold;
 font-size:24px;
 }
 
+/* MENU */
+
 .menu{
 display:flex;
 gap:30px;
 }
 
-.menu a{
+.menu div{
 cursor:pointer;
-color:white;
-text-decoration:none;
-opacity:0.8;
+position:relative;
 }
 
-.menu a:hover{
+.menu div:hover{
 color:#ff2a2a;
 }
 
-/* 🔥 VOLET (petit, propre) */
+/* DROPDOWN */
 
 .dropdown{
 display:none;
 position:absolute;
-top:70px;
-right:40px;
+top:30px;
+left:0;
 
-background:rgba(0,0,0,0.8);
-padding:20px 30px;
+background:#111;
 border-radius:10px;
+padding:10px 0;
+min-width:180px;
 
-box-shadow:0 0 20px rgba(255,0,0,0.5);
+box-shadow:0 0 20px rgba(255,0,0,0.4);
+}
+
+.dropdown a{
+display:block;
+padding:10px 20px;
+color:white;
+text-decoration:none;
+}
+
+.dropdown a:hover{
+background:#ff2a2a;
 }
 
 /* HERO */
@@ -104,7 +116,7 @@ text-decoration:none;
 font-weight:bold;
 }
 
-/* IMAGE À DROITE */
+/* IMAGE */
 
 .hero-img img{
 width:420px;
@@ -136,26 +148,57 @@ text-align:center;
 
 <body>
 
-<!-- MENU -->
+<!-- 🔥 MENU -->
 
 <div class="topbar">
 
 <div class="logo">KIRNOS</div>
 
 <div class="menu">
-<a onclick="toggleMenu('docs')">Documentation</a>
-<a onclick="toggleMenu('premium')">Premium</a>
-<a onclick="toggleMenu('status')">Status</a>
-<a onclick="toggleMenu('support')">Support</a>
+
+<div onclick="toggle('docs')">
+Documentation
+<div id="docs" class="dropdown">
+<a href="#">Utilisation</a>
+<a href="#">Fonctionnalités</a>
+<a href="#">Abonnement</a>
+</div>
+</div>
+
+<div onclick="toggle('premium')">
+Premium
+<div id="premium" class="dropdown">
+<a href="#">1 mois : 10€</a>
+<a href="#">3 mois : 30€</a>
+<a href="#">6 mois : 50€</a>
+<a href="#">Carte / PayPal</a>
+</div>
+</div>
+
+<div onclick="toggle('status')">
+Status
+<div id="status" class="dropdown">
+<a href="#">Serveur : En ligne</a>
+<a href="#">API : Fonctionnelle</a>
+<a href="#">Protection : Active</a>
+</div>
+</div>
+
+<div onclick="toggle('support')">
+Support
+<div id="support" class="dropdown">
+<a href="#">Discord</a>
+<a href="#">Twitter / X</a>
+<a href="#">TikTok</a>
+<a href="#">WhatsApp</a>
+</div>
 </div>
 
 </div>
 
-<!-- 🔥 VOLET UNIQUE -->
+</div>
 
-<div id="dropdown" class="dropdown"></div>
-
-<!-- HERO -->
+<!-- 🔥 HERO -->
 
 <div class="hero">
 
@@ -192,62 +235,26 @@ text-align:center;
 
 </div>
 
+<!-- JS -->
+
 <script>
 
-let current = null;
+function toggle(id){
 
-function toggleMenu(type){
+let all = document.querySelectorAll('.dropdown');
 
-let box = document.getElementById("dropdown");
-
-/* toggle fermer */
-if(current === type){
-box.style.display = "none";
-current = null;
-return;
+all.forEach(menu=>{
+if(menu.id !== id){
+menu.style.display = "none";
 }
+});
 
-current = type;
-box.style.display = "block";
+let current = document.getElementById(id);
 
-/* contenu */
-
-if(type === "docs"){
-box.innerHTML = `
-<h3>Documentation</h3>
-<p>Connexion TikTok</p>
-<p>Configuration</p>
-<p>Protection live</p>
-`;
-}
-
-if(type === "premium"){
-box.innerHTML = `
-<h3>Premium</h3>
-<p>1 mois : 10€</p>
-<p>3 mois : 30€</p>
-<p>6 mois : 50€</p>
-<p>Carte / PayPal</p>
-`;
-}
-
-if(type === "status"){
-box.innerHTML = `
-<h3>Status</h3>
-<p>Serveur : En ligne</p>
-<p>API : Fonctionnelle</p>
-<p>Protection : Active</p>
-`;
-}
-
-if(type === "support"){
-box.innerHTML = `
-<h3>Support</h3>
-<p>Discord</p>
-<p>Twitter / X</p>
-<p>TikTok</p>
-<p>WhatsApp</p>
-`;
+if(current.style.display === "block"){
+current.style.display = "none";
+}else{
+current.style.display = "block";
 }
 
 }

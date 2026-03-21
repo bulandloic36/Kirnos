@@ -15,7 +15,6 @@ margin:0;
 font-family:'Segoe UI',sans-serif;
 color:white;
 background:radial-gradient(circle at top,#1a0000,#000);
-scroll-behavior:smooth;
 }
 
 /* ===== NAVBAR ===== */
@@ -28,8 +27,8 @@ padding:20px 60px;
 position:fixed;
 width:100%;
 z-index:1000;
-background:rgba(0,0,0,0.4);
-backdrop-filter:blur(10px);
+background:rgba(0,0,0,0.5);
+backdrop-filter:blur(15px);
 }
 
 .logo{
@@ -38,22 +37,59 @@ font-size:26px;
 font-weight:bold;
 }
 
+/* MENU */
+
 .nav-links{
 display:flex;
 gap:30px;
 }
 
-.nav-links a{
-color:white;
-text-decoration:none;
-font-size:14px;
+.nav-item{
+position:relative;
+cursor:pointer;
 opacity:0.8;
 transition:0.3s;
 }
 
-.nav-links a:hover{
+.nav-item:hover{
 opacity:1;
 color:#ff2a2a;
+}
+
+/* DROPDOWN PRO */
+
+.dropdown{
+display:none;
+position:absolute;
+top:35px;
+left:0;
+background:rgba(15,15,15,0.95);
+border-radius:12px;
+padding:10px;
+min-width:200px;
+box-shadow:0 15px 50px rgba(0,0,0,0.8);
+animation:fade 0.2s ease;
+}
+
+.dropdown a{
+display:block;
+padding:12px;
+border-radius:8px;
+color:white;
+text-decoration:none;
+transition:0.2s;
+}
+
+.dropdown a:hover{
+background:rgba(255,255,255,0.05);
+transform:translateX(5px);
+}
+
+/* ANIMATION */
+
+@keyframes fade{
+from{opacity:0; transform:translateY(-10px);}
+to{opacity:1; transform:translateY(0);}
 }
 
 /* ===== HERO ===== */
@@ -63,7 +99,7 @@ display:flex;
 justify-content:space-between;
 align-items:center;
 padding:120px 100px 0 100px;
-height:90vh;
+height:100vh;
 }
 
 .hero-left h1{
@@ -85,19 +121,26 @@ border-radius:40px;
 text-decoration:none;
 color:white;
 font-weight:bold;
-box-shadow:0 0 25px red;
+box-shadow:0 0 30px red;
 transition:0.3s;
 display:inline-block;
 }
 
 .btn:hover{
-transform:scale(1.08);
+transform:scale(1.1);
 }
+
+/* IMAGE */
 
 .hero-img img{
 width:450px;
 border-radius:20px;
-box-shadow:0 0 60px rgba(255,0,0,0.7);
+box-shadow:0 0 70px rgba(255,0,0,0.8);
+transition:0.3s;
+}
+
+.hero-img img:hover{
+transform:scale(1.03);
 }
 
 /* ===== SECTIONS ===== */
@@ -128,7 +171,7 @@ transition:0.3s;
 
 .card:hover{
 transform:translateY(-10px);
-box-shadow:0 0 40px red;
+box-shadow:0 0 50px red;
 }
 
 /* ===== PREMIUM ===== */
@@ -148,27 +191,34 @@ transition:0.3s;
 }
 
 .plan:hover{
-box-shadow:0 0 30px red;
+box-shadow:0 0 40px red;
 transform:scale(1.05);
 }
 
 .plan button{
 margin-top:20px;
-padding:10px 25px;
+padding:12px 30px;
 background:#ff2a2a;
 border:none;
 border-radius:20px;
 color:white;
 cursor:pointer;
+font-weight:bold;
+transition:0.3s;
+}
+
+.plan button:hover{
+transform:scale(1.1);
 }
 
 /* ===== STATUS ===== */
 
 .status-box{
-padding:20px;
+padding:25px;
 background:#111;
-border-radius:10px;
+border-radius:12px;
 display:inline-block;
+box-shadow:0 0 20px rgba(255,0,0,0.3);
 }
 
 .online{color:#00ff00;}
@@ -183,13 +233,47 @@ display:inline-block;
 <!-- ===== NAVBAR ===== -->
 
 <div class="navbar">
+
 <div class="logo">KIRNOS</div>
 
 <div class="nav-links">
-<a href="#features">Fonctionnalités</a>
-<a href="#premium">Premium</a>
-<a href="#status">Status</a>
-<a href="#support">Support</a>
+
+<div class="nav-item" onclick="toggle('docs')">
+Documentation ▾
+<div id="docs" class="dropdown">
+<a>📌 À quoi ça sert</a>
+<a>⚙️ Comment utiliser</a>
+<a>💎 Premium</a>
+</div>
+</div>
+
+<div class="nav-item" onclick="toggle('premiumMenu')">
+Premium ▾
+<div id="premiumMenu" class="dropdown">
+<a>7 jours gratuits</a>
+<a>1 mois : 10€</a>
+<a>3 mois : 30€</a>
+<a>6 mois : 50€</a>
+</div>
+</div>
+
+<div class="nav-item" onclick="toggle('statusMenu')">
+Status ▾
+<div id="statusMenu" class="dropdown">
+<a id="botStatus">Chargement...</a>
+</div>
+</div>
+
+<div class="nav-item" onclick="toggle('supportMenu')">
+Support ▾
+<div id="supportMenu" class="dropdown">
+<a href="https://discord.gg/72372NQEu" target="_blank">Discord</a>
+<a href="https://twitter.com/KIRNOS350102" target="_blank">Twitter</a>
+<a href="https://tiktok.com/@kirnos24" target="_blank">TikTok</a>
+<a href="https://wa.me/33743260248" target="_blank">WhatsApp</a>
+</div>
+</div>
+
 </div>
 </div>
 
@@ -211,32 +295,19 @@ display:inline-block;
 
 <!-- ===== FEATURES ===== -->
 
-<div id="features" class="section">
+<div class="section">
 <div class="title">Fonctionnalités</div>
 
 <div class="cards">
-
-<div class="card">
-<h3>IA Anti Troll</h3>
-<p>Bloque automatiquement les messages toxiques</p>
-</div>
-
-<div class="card">
-<h3>Anti Raid</h3>
-<p>Protection contre les attaques massives</p>
-</div>
-
-<div class="card">
-<h3>Dashboard</h3>
-<p>Statistiques en temps réel</p>
-</div>
-
+<div class="card"><h3>IA Anti Troll</h3><p>Blocage automatique</p></div>
+<div class="card"><h3>Anti Raid</h3><p>Protection en temps réel</p></div>
+<div class="card"><h3>Dashboard</h3><p>Statistiques live</p></div>
 </div>
 </div>
 
 <!-- ===== PREMIUM ===== -->
 
-<div id="premium" class="section">
+<div class="section">
 <div class="title">Premium</div>
 
 <div class="pricing">
@@ -264,22 +335,22 @@ display:inline-block;
 
 <!-- ===== STATUS ===== -->
 
-<div id="status" class="section">
+<div class="section">
 <div class="title">Status</div>
 
 <div class="status-box">
-<p id="botStatus">Chargement...</p>
+<p id="botStatusText">Chargement...</p>
 </div>
 
 </div>
 
 <!-- ===== SUPPORT ===== -->
 
-<div id="support" class="section">
+<div class="section">
 <div class="title">Support</div>
 
 <p><a href="https://discord.gg/72372NQEu" target="_blank">Discord</a></p>
-<p><a href="https://twitter.com/KIRNOS350102" target="_blank">Twitter / X</a></p>
+<p><a href="https://twitter.com/KIRNOS350102" target="_blank">Twitter</a></p>
 <p><a href="https://tiktok.com/@kirnos24" target="_blank">TikTok</a></p>
 <p><a href="https://wa.me/33743260248" target="_blank">WhatsApp</a></p>
 
@@ -288,6 +359,25 @@ display:inline-block;
 <!-- ===== JS ===== -->
 
 <script>
+
+/* DROPDOWN */
+
+function toggle(id){
+
+let all = document.querySelectorAll('.dropdown');
+
+all.forEach(menu=>{
+if(menu.id !== id){
+menu.style.display = "none";
+}
+});
+
+let current = document.getElementById(id);
+
+current.style.display = current.style.display === "block" ? "none" : "block";
+}
+
+/* STRIPE */
 
 async function buy(plan) {
 const res = await fetch(`/create-checkout-session/${plan}`);
@@ -299,14 +389,17 @@ window.location.href = data.url;
 
 let botOnline = true;
 
-let statusText = document.getElementById("botStatus");
+let s1 = document.getElementById("botStatus");
+let s2 = document.getElementById("botStatusText");
 
 if(botOnline){
-statusText.innerHTML = "Bot en ligne";
-statusText.classList.add("online");
+s1.innerHTML = "🟢 Bot en ligne";
+s2.innerHTML = "🟢 Bot en ligne";
+s2.classList.add("online");
 }else{
-statusText.innerHTML = "Bot hors ligne";
-statusText.classList.add("offline");
+s1.innerHTML = "🔴 Bot hors ligne";
+s2.innerHTML = "🔴 Bot hors ligne";
+s2.classList.add("offline");
 }
 
 </script>

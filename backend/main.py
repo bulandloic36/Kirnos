@@ -1,13 +1,19 @@
 from fastapi import FastAPI, Request, Form
-from fastapi.responses import HTMLResponse, PlainTextResponse, RedirectResponse
+from fastapi.responses import HTMLResponse, PlainTextResponse, RedirectResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 import os
 import requests
+import stripe
 
 app = FastAPI()
 
-# ===== CONFIG =====
+# ===== STRIPE CONFIG =====
+stripe.api_key = "sk_test_TA_CLE_STRIPE"  # ⚠️ MET TA VRAIE CLE
+
+YOUR_DOMAIN = "https://kirnos.onrender.com"
+
+# ===== CONFIG TIKTOK =====
 CLIENT_KEY = "awon9ygf81kxe6sx"
 CLIENT_SECRET = "uThXUV0H8COoccFKqeGVnHNw9IuU3aDV"
 REDIRECT_URI = "https://kirnos.onrender.com/auth/callback"
@@ -60,6 +66,41 @@ def live():
     except:
         return "No logs"
 
+# ===== STRIPE PAIEMENT =====
+@app.get("/create-checkout-session/{plan}")
+async def create_checkout_session(plan: str):
+
+    if plan == "1m":
+        amount = 1000
+        name = "Kirnos Premium - 1 mois"
+    elif plan == "3m":
+        amount = 3000
+        name = "Kirnos Premium - 3 mois"
+    elif plan == "6m":
+        amount = 5000
+        name = "Kirnos Premium - 6 mois"
+    else:
+        return {"error": "plan invalide"}
+
+    session = stripe.checkout.Session.create(
+        payment_method_types=["card"],
+        line_items=[{
+            "price_data": {
+                "currency": "eur",
+                "product_data": {
+                    "name": name,
+                },
+                "unit_amount": amount,
+            },
+            "quantity": 1,
+        }],
+        mode="payment",
+        success_url=YOUR_DOMAIN + "?success=true",
+        cancel_url=YOUR_DOMAIN + "?cancel=true",
+    )
+
+    return JSONResponse({"url": session.url})
+
 # ===== LOGIN TIKTOK =====
 @app.get("/login/tiktok")
 def login_tiktok():
@@ -93,4 +134,3 @@ def tiktok_callback(code: str):
     token_data = response.json()
 
     return token_data
-

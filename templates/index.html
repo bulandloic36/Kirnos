@@ -1,21 +1,37 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-
 <meta charset="UTF-8">
 <title>KIRNOS</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 
-/* ===== BASE ===== */
+/* ===== GLOBAL ===== */
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
 
 body{
-margin:0;
 font-family:'Segoe UI',sans-serif;
+background:#0a0a0a;
 color:white;
-height:100vh;
-overflow:hidden;
-background:radial-gradient(circle at center,#3a0000,#000);
+overflow-x:hidden;
+}
+
+/* ===== BACKGROUND ===== */
+
+body::before{
+content:"";
+position:fixed;
+width:100%;
+height:100%;
+background:radial-gradient(circle at 20% 20%, #ff000033, transparent),
+radial-gradient(circle at 80% 80%, #ff000022, transparent);
+z-index:-1;
 }
 
 /* ===== NAVBAR ===== */
@@ -23,48 +39,58 @@ background:radial-gradient(circle at center,#3a0000,#000);
 .navbar{
 display:flex;
 justify-content:space-between;
-padding:20px 60px;
 align-items:center;
+padding:20px 60px;
+position:fixed;
+width:100%;
+background:rgba(0,0,0,0.6);
+backdrop-filter:blur(12px);
+z-index:1000;
 }
 
 .logo{
 color:#ff2a2a;
-font-size:20px;
 font-weight:bold;
+font-size:22px;
 }
-
-/* ===== MENU ===== */
 
 .menu{
 display:flex;
-gap:30px;
+gap:25px;
 }
 
 .menu a{
-color:white;
 text-decoration:none;
-opacity:0.8;
+color:white;
+opacity:0.7;
+transition:0.3s;
 }
 
 .menu a:hover{
+opacity:1;
 color:#ff2a2a;
 }
 
 /* ===== HERO ===== */
 
 .hero{
+height:100vh;
 display:flex;
-justify-content:space-between;
 align-items:center;
-padding:100px;
+justify-content:center;
+gap:80px;
+padding:0 100px;
 }
 
 /* LEFT */
 
+.left{
+max-width:500px;
+}
+
 .left h1{
-font-size:80px;
-margin:0;
-text-shadow:0 0 20px red;
+font-size:70px;
+text-shadow:0 0 20px rgba(255,0,0,0.4);
 }
 
 .left p{
@@ -75,44 +101,44 @@ opacity:0.7;
 /* BUTTON */
 
 .btn{
-margin-top:25px;
 display:inline-block;
-padding:15px 35px;
+margin-top:25px;
+padding:15px 40px;
 background:#ff2a2a;
 border-radius:40px;
-color:white;
 text-decoration:none;
+color:white;
 font-weight:bold;
 box-shadow:0 0 25px red;
 transition:0.3s;
 }
 
 .btn:hover{
-transform:scale(1.05);
+transform:scale(1.08);
 }
 
-/* RIGHT IMAGE */
+/* IMAGE */
 
 .right img{
 width:420px;
 border-radius:20px;
-box-shadow:0 0 80px rgba(255,0,0,0.8);
+box-shadow:0 0 80px rgba(255,0,0,0.6);
 }
 
-/* ===== CARDS ===== */
+/* ===== FEATURES ===== */
 
-.cards{
+.features{
+padding:80px 100px;
 display:flex;
 gap:30px;
-padding:0 100px;
-margin-top:40px;
+justify-content:center;
 }
 
 .card{
-flex:1;
 background:#111;
-padding:25px;
+padding:30px;
 border-radius:15px;
+width:250px;
 text-align:center;
 transition:0.3s;
 }
@@ -131,12 +157,13 @@ box-shadow:0 0 30px red;
 <!-- NAVBAR -->
 
 <div class="navbar">
-
 <div class="logo">KIRNOS</div>
 
 <div class="menu">
 <a href="/documentation">Documentation</a>
 <a href="/faq">FAQ</a>
+<a href="/support">Support</a>
+</div>
 </div>
 
 <!-- HERO -->
@@ -158,21 +185,21 @@ box-shadow:0 0 30px red;
 
 <!-- FEATURES -->
 
-<div class="cards">
+<div class="features">
 
 <div class="card">
 <h3>IA Anti Troll</h3>
-<p>Blocage automatique</p>
+<p>Blocage automatique des messages toxiques</p>
 </div>
 
 <div class="card">
 <h3>Anti Raid</h3>
-<p>Sécurité avancée</p>
+<p>Protection contre les attaques massives</p>
 </div>
 
 <div class="card">
 <h3>Dashboard</h3>
-<p>Stats en temps réel</p>
+<p>Statistiques en temps réel</p>
 </div>
 
 </div>

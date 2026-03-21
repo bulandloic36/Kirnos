@@ -8,12 +8,14 @@
 
 <style>
 
-/* 🔥 FOND */
+/* 🔥 PLEIN ECRAN */
 
 body{
 margin:0;
 font-family:Arial;
 color:white;
+height:100vh;
+overflow:hidden;
 
 background:linear-gradient(120deg,#000,#1a0000,#5a0000,#000);
 background-size:400% 400%;
@@ -67,9 +69,9 @@ left:0;
 background:#111;
 border-radius:10px;
 padding:10px 0;
-min-width:180px;
+min-width:200px;
 
-box-shadow:0 0 20px rgba(255,0,0,0.4);
+box-shadow:0 0 20px rgba(255,0,0,0.5);
 }
 
 .dropdown a{
@@ -90,8 +92,7 @@ display:flex;
 align-items:center;
 justify-content:center;
 gap:80px;
-padding:80px 40px;
-flex-wrap:wrap;
+height:calc(100vh - 100px);
 }
 
 /* TEXTE */
@@ -124,22 +125,14 @@ border-radius:20px;
 box-shadow:0 0 30px red;
 }
 
-/* FEATURES */
+/* STATUS COLORS */
 
-.features{
-display:flex;
-justify-content:center;
-gap:30px;
-padding:40px;
-flex-wrap:wrap;
+.online{
+color:#00ff00;
 }
 
-.feature{
-background:rgba(0,0,0,0.6);
-padding:25px;
-border-radius:12px;
-width:250px;
-text-align:center;
+.offline{
+color:red;
 }
 
 </style>
@@ -148,7 +141,7 @@ text-align:center;
 
 <body>
 
-<!-- 🔥 MENU -->
+<!-- MENU -->
 
 <div class="topbar">
 
@@ -159,38 +152,37 @@ text-align:center;
 <div onclick="toggle('docs')">
 Documentation
 <div id="docs" class="dropdown">
-<a href="#">Utilisation</a>
-<a href="#">Fonctionnalités</a>
-<a href="#">Abonnement</a>
+<a>📌 À quoi ça sert ?</a>
+<a>⚙️ Comment utiliser</a>
+<a>💎 Premium</a>
 </div>
 </div>
 
 <div onclick="toggle('premium')">
 Premium
 <div id="premium" class="dropdown">
-<a href="#">1 mois : 10€</a>
-<a href="#">3 mois : 30€</a>
-<a href="#">6 mois : 50€</a>
-<a href="#">Carte Bancaire / PayPal</a>
+<a>1 semaine gratuite</a>
+<a>1 mois : 10€</a>
+<a>3 mois : 30€</a>
+<a>6 mois : 50€</a>
+<a>Paiement : Carte / PayPal</a>
 </div>
 </div>
 
 <div onclick="toggle('status')">
 Status
 <div id="status" class="dropdown">
-<a href="#">Serveur : En ligne</a>
-<a href="#">API : Fonctionnelle</a>
-<a href="#">Protection : Active</a>
+<a id="botStatus">Chargement...</a>
 </div>
 </div>
 
 <div onclick="toggle('support')">
 Support
 <div id="support" class="dropdown">
-<a href="#">Discord</a>
-<a href="#">Twitter / X</a>
-<a href="#">TikTok</a>
-<a href="#">WhatsApp</a>
+<a href="https://discord.gg/72372NQEu" target="_blank">Discord</a>
+<a href="https://twitter.com/KIRNOS350102" target="_blank">Twitter / X</a>
+<a href="https://tiktok.com/@kirnos24" target="_blank">TikTok</a>
+<a href="https://wa.me/33743260248" target="_blank">WhatsApp</a>
 </div>
 </div>
 
@@ -198,7 +190,7 @@ Support
 
 </div>
 
-<!-- 🔥 HERO -->
+<!-- HERO -->
 
 <div class="hero">
 
@@ -214,30 +206,11 @@ Support
 
 </div>
 
-<!-- FEATURES -->
-
-<div class="features">
-
-<div class="feature">
-<h3>IA Anti Troll</h3>
-<p>Protection automatique</p>
-</div>
-
-<div class="feature">
-<h3>Anti Raid</h3>
-<p>Blocage des attaques</p>
-</div>
-
-<div class="feature">
-<h3>Dashboard</h3>
-<p>Stats en direct</p>
-</div>
-
-</div>
-
 <!-- JS -->
 
 <script>
+
+/* MENU */
 
 function toggle(id){
 
@@ -257,6 +230,20 @@ current.style.display = "none";
 current.style.display = "block";
 }
 
+}
+
+/* STATUS AUTO */
+
+let botOnline = true; // 🔥 CHANGE ICI (true ou false)
+
+let statusText = document.getElementById("botStatus");
+
+if(botOnline){
+statusText.innerHTML = "🟢 Bot en ligne";
+statusText.classList.add("online");
+}else{
+statusText.innerHTML = "🔴 Bot hors ligne";
+statusText.classList.add("offline");
 }
 
 </script>

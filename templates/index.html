@@ -8,8 +8,6 @@
 
 <style>
 
-/* 🔥 PLEIN ECRAN */
-
 body{
 margin:0;
 font-family:Arial;
@@ -27,8 +25,6 @@ animation:bgmove 12s infinite alternate;
 100%{background-position:right;}
 }
 
-/* TOPBAR */
-
 .topbar{
 display:flex;
 justify-content:space-between;
@@ -41,8 +37,6 @@ color:#ff2a2a;
 font-weight:bold;
 font-size:24px;
 }
-
-/* MENU */
 
 .menu{
 display:flex;
@@ -58,8 +52,6 @@ position:relative;
 color:#ff2a2a;
 }
 
-/* DROPDOWN */
-
 .dropdown{
 display:none;
 position:absolute;
@@ -74,18 +66,23 @@ min-width:200px;
 box-shadow:0 0 20px rgba(255,0,0,0.5);
 }
 
-.dropdown a{
+.dropdown a,
+.dropdown button{
 display:block;
 padding:10px 20px;
 color:white;
 text-decoration:none;
+background:none;
+border:none;
+width:100%;
+text-align:left;
+cursor:pointer;
 }
 
-.dropdown a:hover{
+.dropdown a:hover,
+.dropdown button:hover{
 background:#ff2a2a;
 }
-
-/* HERO */
 
 .hero{
 display:flex;
@@ -94,8 +91,6 @@ justify-content:center;
 gap:80px;
 height:calc(100vh - 100px);
 }
-
-/* TEXTE */
 
 .hero-left{
 max-width:500px;
@@ -117,15 +112,11 @@ text-decoration:none;
 font-weight:bold;
 }
 
-/* IMAGE */
-
 .hero-img img{
 width:420px;
 border-radius:20px;
 box-shadow:0 0 30px red;
 }
-
-/* STATUS COLORS */
 
 .online{
 color:#00ff00;
@@ -141,8 +132,6 @@ color:red;
 
 <body>
 
-<!-- MENU -->
-
 <div class="topbar">
 
 <div class="logo">KIRNOS</div>
@@ -152,20 +141,20 @@ color:red;
 <div onclick="toggle('docs')">
 Documentation
 <div id="docs" class="dropdown">
-<a>📌 À quoi ça sert ?</a>
-<a>⚙️ Comment utiliser</a>
-<a>💎 Premium</a>
+<a>À quoi ça sert</a>
+<a>Comment utiliser</a>
+<a>Premium</a>
 </div>
 </div>
 
 <div onclick="toggle('premium')">
 Premium
 <div id="premium" class="dropdown">
-<a>1 semaine gratuite</a>
-<a>1 mois : 10€</a>
-<a>3 mois : 30€</a>
-<a>6 mois : 50€</a>
-<a>Paiement : Carte / PayPal</a>
+
+<button onclick="buy('1m')">1 mois - 10€</button>
+<button onclick="buy('3m')">3 mois - 30€</button>
+<button onclick="buy('6m')">6 mois - 50€</button>
+
 </div>
 </div>
 
@@ -190,8 +179,6 @@ Support
 
 </div>
 
-<!-- HERO -->
-
 <div class="hero">
 
 <div class="hero-left">
@@ -206,11 +193,7 @@ Support
 
 </div>
 
-<!-- JS -->
-
 <script>
-
-/* MENU */
 
 function toggle(id){
 
@@ -232,17 +215,25 @@ current.style.display = "block";
 
 }
 
-/* STATUS AUTO */
+/* STRIPE */
 
-let botOnline = true; // 🔥 CHANGE ICI (true ou false)
+async function buy(plan) {
+    const res = await fetch(`/create-checkout-session/${plan}`);
+    const data = await res.json();
+    window.location.href = data.url;
+}
+
+/* STATUS */
+
+let botOnline = true;
 
 let statusText = document.getElementById("botStatus");
 
 if(botOnline){
-statusText.innerHTML = "🟢 Bot en ligne";
+statusText.innerHTML = "Bot en ligne";
 statusText.classList.add("online");
 }else{
-statusText.innerHTML = "🔴 Bot hors ligne";
+statusText.innerHTML = "Bot hors ligne";
 statusText.classList.add("offline");
 }
 

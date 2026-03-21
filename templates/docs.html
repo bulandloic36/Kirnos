@@ -2,26 +2,75 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Documentation - KIRNOS</title>
+<title>KIRNOS - Documentation</title>
 
 <style>
+
 body{
+font-family:'Segoe UI',sans-serif;
 margin:0;
-font-family:'Segoe UI';
-background:#0b0b0b;
 color:white;
-padding:50px;
+background:linear-gradient(135deg,#0a0a0a,#2b0000);
+}
+
+/* NAVBAR */
+
+.navbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:20px 40px;
+background:rgba(0,0,0,0.6);
+backdrop-filter:blur(10px);
+}
+
+.logo{
+color:#ff2a2a;
+font-weight:bold;
+}
+
+.back{
+background:#ff2a2a;
+padding:10px 20px;
+border-radius:30px;
+text-decoration:none;
+color:white;
+font-weight:bold;
+}
+
+/* CONTENT */
+
+.container{
+padding:60px;
+max-width:1000px;
+margin:auto;
 }
 
 h1{
 color:#ff2a2a;
+margin-bottom:30px;
 }
 
-.section{
-margin-top:40px;
-padding:20px;
+/* CARDS */
+
+.box{
 background:#111;
-border-radius:10px;
+padding:25px;
+border-radius:12px;
+margin-bottom:20px;
+box-shadow:0 0 15px rgba(255,0,0,0.2);
+}
+
+.box h2{
+margin-bottom:10px;
+}
+
+/* HOVER */
+
+.box:hover{
+transform:scale(1.02);
+transition:0.3s;
+box-shadow:0 0 30px red;
 }
 
 </style>
@@ -30,31 +79,59 @@ border-radius:10px;
 
 <body>
 
-<h1>KIRNOS - Documentation</h1>
+<!-- NAVBAR -->
 
-<div class="section">
+<div class="navbar">
+<div class="logo">KIRNOS</div>
+<a href="/" class="back">⬅ Retour Accueil</a>
+</div>
+
+<!-- CONTENT -->
+
+<div class="container">
+
+<h1>📘 Documentation Kirnos</h1>
+
+<div class="box">
 <h2>📌 À quoi ça sert ?</h2>
 <p>
-Kirnos protège les lives TikTok contre les trolls, insultes et raids.
+Kirnos est une solution avancée de protection pour les lives TikTok.  
+Il détecte automatiquement les comportements toxiques, les insultes et les raids.  
+L’objectif est simple : sécuriser ton live et améliorer ton expérience.
 </p>
 </div>
 
-<div class="section">
+<div class="box">
 <h2>⚙️ Comment ça marche ?</h2>
 <p>
 1. Tu connectes ton compte TikTok  
-2. Le bot analyse les messages en live  
-3. Il bloque automatiquement les comportements toxiques  
+2. Kirnos analyse les messages en temps réel  
+3. Les messages toxiques sont automatiquement bloqués  
+4. Tu gardes un contrôle total via le dashboard  
 </p>
 </div>
 
-<div class="section">
+<div class="box">
 <h2>💎 Premium</h2>
 <p>
-- Détection IA avancée  
-- Protection anti raid renforcée  
-- Dashboard complet  
+Le mode Premium débloque des fonctionnalités avancées :  
+- Protection IA renforcée  
+- Anti-raid intelligent  
+- Dashboard complet avec statistiques  
+- Support prioritaire  
 </p>
+</div>
+
+<div class="box">
+<h2>🚀 Pourquoi utiliser Kirnos ?</h2>
+<p>
+✔ Gain de temps  
+✔ Protection automatique  
+✔ Meilleure expérience pour tes viewers  
+✔ Outil professionnel pour streamer sérieusement  
+</p>
+</div>
+
 </div>
 
 </body>

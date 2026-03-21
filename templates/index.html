@@ -14,72 +14,109 @@ margin:0;
 font-family:'Segoe UI',sans-serif;
 background:#0b0b0b;
 color:white;
+}
+
+/* ===== NAVBAR ===== */
+
+.navbar{
 display:flex;
+justify-content:space-between;
+padding:20px 60px;
+background:#000;
+align-items:center;
+}
+
+.logo{
+color:red;
+font-size:22px;
+font-weight:bold;
+}
+
+.menu{
+display:flex;
+gap:30px;
+}
+
+.menu-item{
+position:relative;
+cursor:pointer;
+}
+
+/* ===== DROPDOWN ===== */
+
+.dropdown{
+display:none;
+position:absolute;
+top:30px;
+background:#111;
+padding:10px;
+border-radius:10px;
+min-width:200px;
+box-shadow:0 0 20px rgba(255,0,0,0.5);
+}
+
+.dropdown a{
+display:block;
+padding:10px;
+color:white;
+text-decoration:none;
+}
+
+.dropdown a:hover{
+background:red;
+}
+
+/* ===== HERO ===== */
+
+.hero{
+height:90vh;
+display:flex;
+flex-direction:column;
 justify-content:center;
 align-items:center;
-height:100vh;
-overflow:hidden;
-}
-
-/* ===== BACKGROUND ANIM ===== */
-
-body::before{
-content:"";
-position:absolute;
-width:100%;
-height:100%;
-background:radial-gradient(circle at 50% 50%, rgba(255,0,0,0.2), transparent 60%);
-animation: glow 5s infinite alternate;
-z-index:-1;
-}
-
-@keyframes glow{
-0%{opacity:0.4;}
-100%{opacity:1;}
-}
-
-/* ===== CONTAINER ===== */
-
-.container{
 text-align:center;
 }
 
-/* ===== TITLE ===== */
-
 h1{
 font-size:80px;
-margin:0;
-letter-spacing:5px;
-color:white;
 text-shadow:0 0 20px red;
 }
 
-/* ===== SUB ===== */
-
-p{
-opacity:0.7;
-margin-top:10px;
-font-size:18px;
-}
-
-/* ===== BUTTON ===== */
-
 .btn{
-margin-top:30px;
-display:inline-block;
+margin-top:20px;
 padding:15px 40px;
 background:red;
 border-radius:40px;
-color:white;
 text-decoration:none;
-font-weight:bold;
+color:white;
 box-shadow:0 0 20px red;
-transition:0.3s;
 }
 
-.btn:hover{
-transform:scale(1.1);
-box-shadow:0 0 40px red;
+/* ===== SECTION ===== */
+
+.section{
+padding:60px;
+text-align:center;
+}
+
+.title{
+font-size:40px;
+margin-bottom:20px;
+}
+
+/* ===== FAQ ===== */
+
+.faq{
+max-width:600px;
+margin:auto;
+text-align:left;
+}
+
+.faq-item{
+margin-bottom:15px;
+padding:15px;
+background:#111;
+border-radius:10px;
 }
 
 </style>
@@ -88,7 +125,44 @@ box-shadow:0 0 40px red;
 
 <body>
 
-<div class="container">
+<!-- NAVBAR -->
+
+<div class="navbar">
+
+<div class="logo">KIRNOS</div>
+
+<div class="menu">
+
+<div class="menu-item" onclick="toggle('docs')">
+Documentation
+<div id="docs" class="dropdown">
+<a href="#doc1">À quoi ça sert</a>
+<a href="#doc2">Comment ça marche</a>
+<a href="#doc3">Premium</a>
+</div>
+</div>
+
+<div class="menu-item" onclick="toggle('support')">
+Support
+<div id="support" class="dropdown">
+<a href="https://discord.gg/72372NQEu" target="_blank">Discord</a>
+<a href="https://tiktok.com" target="_blank">TikTok</a>
+<a href="https://wa.me" target="_blank">WhatsApp</a>
+<a href="https://twitter.com" target="_blank">Twitter / X</a>
+</div>
+</div>
+
+<div class="menu-item">
+<a href="#faq" style="color:white;text-decoration:none;">FAQ</a>
+</div>
+
+</div>
+
+</div>
+
+<!-- HERO -->
+
+<div class="hero">
 
 <h1>KIRNOS</h1>
 <p>Protection intelligente pour les lives TikTok</p>
@@ -96,6 +170,80 @@ box-shadow:0 0 40px red;
 <a href="/dashboard" class="btn">Accéder au Dashboard</a>
 
 </div>
+
+<!-- DOCUMENTATION -->
+
+<div class="section" id="doc1">
+<div class="title">À quoi ça sert ?</div>
+<p>
+Kirnos protège tes lives TikTok contre les trolls, insultes et raids.
+Il automatise la modération pour que tu puisses stream tranquille.
+</p>
+</div>
+
+<div class="section" id="doc2">
+<div class="title">Comment ça marche ?</div>
+<p>
+Tu connectes ton compte TikTok, Kirnos analyse les messages en direct
+et bloque automatiquement les comportements toxiques.
+</p>
+</div>
+
+<div class="section" id="doc3">
+<div class="title">Premium</div>
+<p>
+Avec le premium, tu débloques toutes les fonctionnalités :
+protection avancée, stats en temps réel, anti-raid renforcé.
+</p>
+</div>
+
+<!-- FAQ -->
+
+<div class="section" id="faq">
+<div class="title">FAQ</div>
+
+<div class="faq">
+
+<div class="faq-item">
+<b>Est-ce que Kirnos est gratuit ?</b><br>
+Oui, mais certaines fonctionnalités sont premium.
+</div>
+
+<div class="faq-item">
+<b>Est-ce que ça marche en live ?</b><br>
+Oui, tout est en temps réel.
+</div>
+
+<div class="faq-item">
+<b>Est-ce que c’est sécurisé ?</b><br>
+Oui, aucune donnée sensible n’est stockée.
+</div>
+
+</div>
+
+</div>
+
+<!-- JS -->
+
+<script>
+
+function toggle(id){
+
+let all = document.querySelectorAll('.dropdown');
+
+all.forEach(el=>{
+if(el.id !== id){
+el.style.display="none";
+}
+});
+
+let current = document.getElementById(id);
+
+current.style.display =
+current.style.display === "block" ? "none" : "block";
+}
+
+</script>
 
 </body>
 </html>

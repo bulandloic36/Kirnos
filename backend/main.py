@@ -5,8 +5,11 @@ from fastapi.templating import Jinja2Templates
 import os
 import requests
 import stripe
+from starlette.middleware.sessions import SessionMiddleware
 
 app = FastAPI()
+
+app.add_middleware(SessionMiddleware, secret_key="kirnos_secret")
 
 # ===== STRIPE CONFIG =====
 stripe.api_key = "sk_test_TA_CLE_STRIPE"  # ⚠️ MET TA VRAIE CLE
@@ -53,8 +56,13 @@ async def login(username: str = Form(...), password: str = Form(...)):
     return RedirectResponse("/dashboard", status_code=303)
 
 # ===== DASHBOARD =====
+
 @app.get("/dashboard", response_class=HTMLResponse)
 async def dashboard(request: Request):
+
+    if "user" not in request.session:
+        return RedirectResponse("/login/tiktok")
+
     return templates.TemplateResponse("dashboard.html", {"request": request})
 
 # ===== LIVE LOGS =====
@@ -118,8 +126,9 @@ def login_tiktok():
     return RedirectResponse(url)
 
 # ===== CALLBACK TIKTOK =====
+
 @app.get("/auth/callback")
-def tiktok_callback(code: str):
+def tiktok_callback(request: Request, code: str):
     token_url = "https://open.tiktokapis.com/v2/oauth/token/"
 
     data = {
@@ -133,4 +142,7 @@ def tiktok_callback(code: str):
     response = requests.post(token_url, data=data)
     token_data = response.json()
 
-    return token_data
+    # 🔥 ON SAUVE LA SESSION
+    request.session["user"] = token_data
+
+    return RedirectResponse("/dashboard")

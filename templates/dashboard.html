@@ -1,23 +1,9 @@
 <!DOCTYPE html>
 <html>
-<head>
-<title>Dashboard</title>
-</head>
+<body style="background:#0b0b0b;color:white;text-align:center;">
 
-<body style="background:#0b0b0b;color:white;">
-
-<h1>Dashboard KIRNOS</h1>
-
-<div id="status">Chargement...</div>
-
-<script>
-fetch("/status")
-.then(res=>res.json())
-.then(data=>{
-document.getElementById("status").innerHTML =
-data.online ? "🟢 Bot en ligne" : "🔴 Bot offline";
-});
-</script>
+<h1>Dashboard</h1>
+<p>Bienvenue, tu es premium</p>
 
 </body>
 </html>

@@ -15,96 +15,45 @@ margin:0;
 font-family:'Segoe UI',sans-serif;
 color:white;
 background:radial-gradient(circle at top,#1a0000,#000);
-overflow:hidden;
+scroll-behavior:smooth;
 }
 
-/* ===== TOPBAR ===== */
+/* ===== NAVBAR ===== */
 
-.topbar{
+.navbar{
 display:flex;
 justify-content:space-between;
 align-items:center;
 padding:20px 60px;
+position:fixed;
+width:100%;
+z-index:1000;
+background:rgba(0,0,0,0.4);
+backdrop-filter:blur(10px);
 }
 
 .logo{
 color:#ff2a2a;
-font-size:28px;
+font-size:26px;
 font-weight:bold;
-letter-spacing:2px;
 }
 
-/* ===== MENU ===== */
-
-.menu{
+.nav-links{
 display:flex;
-gap:40px;
+gap:30px;
 }
 
-.menu-item{
-position:relative;
-cursor:pointer;
+.nav-links a{
+color:white;
+text-decoration:none;
 font-size:14px;
 opacity:0.8;
-}
-
-.menu-item:hover{
-opacity:1;
-}
-
-.menu-item::after{
-content:"";
-position:absolute;
-bottom:-6px;
-left:0;
-width:0%;
-height:2px;
-background:#ff2a2a;
 transition:0.3s;
 }
 
-.menu-item:hover::after{
-width:100%;
-}
-
-/* ===== DROPDOWN PRO ===== */
-
-.dropdown{
-display:none;
-position:absolute;
-top:35px;
-left:0;
-background:rgba(20,20,20,0.95);
-backdrop-filter:blur(10px);
-border-radius:12px;
-padding:10px;
-min-width:220px;
-box-shadow:0 0 30px rgba(255,0,0,0.4);
-animation:fade 0.2s ease;
-}
-
-@keyframes fade{
-from{opacity:0;transform:translateY(-5px);}
-to{opacity:1;}
-}
-
-.dropdown a,
-.dropdown button{
-display:block;
-padding:12px;
-color:white;
-text-decoration:none;
-background:none;
-border:none;
-width:100%;
-text-align:left;
-border-radius:8px;
-cursor:pointer;
-}
-
-.dropdown a:hover,
-.dropdown button:hover{
-background:#ff2a2a;
+.nav-links a:hover{
+opacity:1;
+color:#ff2a2a;
 }
 
 /* ===== HERO ===== */
@@ -113,25 +62,20 @@ background:#ff2a2a;
 display:flex;
 justify-content:space-between;
 align-items:center;
-padding:0 100px;
-height:75vh;
+padding:120px 100px 0 100px;
+height:90vh;
 }
-
-/* LEFT */
 
 .hero-left h1{
 font-size:90px;
 margin:0;
-letter-spacing:2px;
 }
 
 .hero-left p{
-opacity:0.6;
+opacity:0.7;
 margin-top:10px;
 font-size:18px;
 }
-
-/* BUTTON */
 
 .btn{
 margin-top:25px;
@@ -143,41 +87,42 @@ color:white;
 font-weight:bold;
 box-shadow:0 0 25px red;
 transition:0.3s;
+display:inline-block;
 }
 
 .btn:hover{
 transform:scale(1.08);
 }
 
-/* IMAGE */
-
 .hero-img img{
 width:450px;
 border-radius:20px;
 box-shadow:0 0 60px rgba(255,0,0,0.7);
-transition:0.4s;
 }
 
-.hero-img img:hover{
-transform:scale(1.06);
+/* ===== SECTIONS ===== */
+
+.section{
+padding:80px 100px;
+}
+
+.title{
+font-size:40px;
+margin-bottom:30px;
 }
 
 /* ===== CARDS ===== */
 
 .cards{
 display:flex;
-justify-content:center;
-gap:40px;
-margin-top:-60px;
+gap:30px;
 }
 
 .card{
+flex:1;
 background:rgba(20,20,20,0.9);
-backdrop-filter:blur(10px);
 padding:30px;
 border-radius:15px;
-width:240px;
-text-align:center;
 transition:0.3s;
 }
 
@@ -186,7 +131,45 @@ transform:translateY(-10px);
 box-shadow:0 0 40px red;
 }
 
+/* ===== PREMIUM ===== */
+
+.pricing{
+display:flex;
+gap:30px;
+}
+
+.plan{
+flex:1;
+padding:30px;
+background:#111;
+border-radius:15px;
+text-align:center;
+transition:0.3s;
+}
+
+.plan:hover{
+box-shadow:0 0 30px red;
+transform:scale(1.05);
+}
+
+.plan button{
+margin-top:20px;
+padding:10px 25px;
+background:#ff2a2a;
+border:none;
+border-radius:20px;
+color:white;
+cursor:pointer;
+}
+
 /* ===== STATUS ===== */
+
+.status-box{
+padding:20px;
+background:#111;
+border-radius:10px;
+display:inline-block;
+}
 
 .online{color:#00ff00;}
 .offline{color:red;}
@@ -197,51 +180,17 @@ box-shadow:0 0 40px red;
 
 <body>
 
-<!-- ===== TOPBAR ===== -->
+<!-- ===== NAVBAR ===== -->
 
-<div class="topbar">
-
+<div class="navbar">
 <div class="logo">KIRNOS</div>
 
-<div class="menu">
-
-<div class="menu-item" onclick="toggle('docs')">
-Documentation
-<div id="docs" class="dropdown">
-<a>À quoi ça sert</a>
-<a>Comment utiliser</a>
-<a>Premium</a>
+<div class="nav-links">
+<a href="#features">Fonctionnalités</a>
+<a href="#premium">Premium</a>
+<a href="#status">Status</a>
+<a href="#support">Support</a>
 </div>
-</div>
-
-<div class="menu-item" onclick="toggle('premium')">
-Premium
-<div id="premium" class="dropdown">
-<button onclick="buy('1m')">1 mois - 10€</button>
-<button onclick="buy('3m')">3 mois - 30€</button>
-<button onclick="buy('6m')">6 mois - 50€</button>
-</div>
-</div>
-
-<div class="menu-item" onclick="toggle('status')">
-Status
-<div id="status" class="dropdown">
-<a id="botStatus">Chargement...</a>
-</div>
-</div>
-
-<div class="menu-item" onclick="toggle('support')">
-Support
-<div id="support" class="dropdown">
-<a href="https://discord.gg/72372NQEu" target="_blank">Discord</a>
-<a href="https://twitter.com/KIRNOS350102" target="_blank">Twitter / X</a>
-<a href="https://tiktok.com/@kirnos24" target="_blank">TikTok</a>
-<a href="https://wa.me/33743260248" target="_blank">WhatsApp</a>
-</div>
-</div>
-
-</div>
-
 </div>
 
 <!-- ===== HERO ===== -->
@@ -260,47 +209,85 @@ Support
 
 </div>
 
-<!-- ===== CARDS ===== -->
+<!-- ===== FEATURES ===== -->
+
+<div id="features" class="section">
+<div class="title">Fonctionnalités</div>
 
 <div class="cards">
 
 <div class="card">
 <h3>IA Anti Troll</h3>
-<p>Protection automatique</p>
+<p>Bloque automatiquement les messages toxiques</p>
 </div>
 
 <div class="card">
 <h3>Anti Raid</h3>
-<p>Blocage des attaques</p>
+<p>Protection contre les attaques massives</p>
 </div>
 
 <div class="card">
 <h3>Dashboard</h3>
-<p>Stats en direct</p>
+<p>Statistiques en temps réel</p>
 </div>
+
+</div>
+</div>
+
+<!-- ===== PREMIUM ===== -->
+
+<div id="premium" class="section">
+<div class="title">Premium</div>
+
+<div class="pricing">
+
+<div class="plan">
+<h2>1 mois</h2>
+<p>10€</p>
+<button onclick="buy('1m')">Acheter</button>
+</div>
+
+<div class="plan">
+<h2>3 mois</h2>
+<p>30€</p>
+<button onclick="buy('3m')">Acheter</button>
+</div>
+
+<div class="plan">
+<h2>6 mois</h2>
+<p>50€</p>
+<button onclick="buy('6m')">Acheter</button>
+</div>
+
+</div>
+</div>
+
+<!-- ===== STATUS ===== -->
+
+<div id="status" class="section">
+<div class="title">Status</div>
+
+<div class="status-box">
+<p id="botStatus">Chargement...</p>
+</div>
+
+</div>
+
+<!-- ===== SUPPORT ===== -->
+
+<div id="support" class="section">
+<div class="title">Support</div>
+
+<p><a href="https://discord.gg/72372NQEu" target="_blank">Discord</a></p>
+<p><a href="https://twitter.com/KIRNOS350102" target="_blank">Twitter / X</a></p>
+<p><a href="https://tiktok.com/@kirnos24" target="_blank">TikTok</a></p>
+<p><a href="https://wa.me/33743260248" target="_blank">WhatsApp</a></p>
 
 </div>
 
 <!-- ===== JS ===== -->
 
 <script>
-
-function toggle(id){
-let all = document.querySelectorAll('.dropdown');
-
-all.forEach(menu=>{
-if(menu.id !== id){
-menu.style.display = "none";
-}
-});
-
-let current = document.getElementById(id);
-
-current.style.display =
-current.style.display === "block" ? "none" : "block";
-}
-
-/* STRIPE */
 
 async function buy(plan) {
 const res = await fetch(`/create-checkout-session/${plan}`);

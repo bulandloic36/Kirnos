@@ -6,6 +6,8 @@ from starlette.middleware.sessions import SessionMiddleware
 import stripe
 
 app = FastAPI()
+
+# ===== SESSION =====
 app.add_middleware(SessionMiddleware, secret_key="kirnos_secret")
 
 # ===== STRIPE =====
@@ -15,6 +17,7 @@ DOMAIN = "http://127.0.0.1:8000"
 # ===== DATA =====
 premium_users = {}
 
+# ===== TEMPLATES =====
 templates = Jinja2Templates(directory="templates")
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
@@ -23,11 +26,17 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 def home(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
-# ===== LOGIN TIKTOK (FAKE POUR TEST) =====
+# ===== LOGIN TIKTOK (FAKE) =====
 @app.get("/login/tiktok")
 def login(request: Request):
     request.session["user"] = "user123"
     return RedirectResponse("/dashboard")
+
+# ===== LOGOUT =====
+@app.get("/logout")
+def logout(request: Request):
+    request.session.clear()
+    return RedirectResponse("/")
 
 # ===== DASHBOARD =====
 @app.get("/dashboard", response_class=HTMLResponse)
@@ -38,16 +47,25 @@ def dashboard(request: Request):
 
     user = request.session["user"]
 
-    if user not in premium_users:
-        return templates.TemplateResponse("login.html", {"request": request})
+    is_premium = premium_users.get(user, False)
 
-    return templates.TemplateResponse("dashboard.html", {"request": request})
+    return templates.TemplateResponse("dashboard.html", {
+        "request": request,
+        "premium": is_premium
+    })
 
 # ===== STRIPE =====
 @app.get("/buy/{plan}")
 def buy(request: Request, plan: str):
 
-    prices = {"1m": 1000, "3m": 3000, "6m": 5000}
+    prices = {
+        "1m": 1000,
+        "3m": 3000,
+        "6m": 5000
+    }
+
+    if plan not in prices:
+        return RedirectResponse("/dashboard")
 
     session = stripe.checkout.Session.create(
         payment_method_types=["card"],
@@ -70,26 +88,23 @@ def buy(request: Request, plan: str):
 @app.get("/success")
 def success(request: Request):
     user = request.session.get("user")
-    premium_users[user] = True
+
+    if user:
+        premium_users[user] = True
+
     return RedirectResponse("/dashboard")
 
-    # ===== DOCUMENTATION =====
+# ===== DOCUMENTATION =====
 @app.get("/documentation", response_class=HTMLResponse)
-async def docs_page(request: Request):
+def docs_page(request: Request):
     return templates.TemplateResponse("docs.html", {"request": request})
 
 # ===== FAQ =====
 @app.get("/faq", response_class=HTMLResponse)
-async def faq_page(request: Request):
+def faq_page(request: Request):
     return templates.TemplateResponse("faq.html", {"request": request})
 
+# ===== SUPPORT =====
 @app.get("/support", response_class=HTMLResponse)
-async def support(request: Request):
+def support_page(request: Request):
     return templates.TemplateResponse("support.html", {"request": request})
-
-
-@app.get("/dashboard", response_class=HTMLResponse)
-async def dashboard(request: Request):
-    if "user" not in request.session:
-        return RedirectResponse("/login/tiktok")
-    return templates.TemplateResponse("dashboard.html", {"request": request})

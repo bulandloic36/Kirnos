@@ -2,146 +2,139 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Dashboard - Kirnos</title>
+<title>Dashboard Kirnos</title>
 
 <style>
-
-body{
-background:#0b0b0b;
-color:white;
-font-family:Arial;
-margin:0;
+body {
+    margin: 0;
+    font-family: Arial;
+    background: radial-gradient(circle, #1a0000, #000);
+    color: white;
 }
 
 /* NAVBAR */
-.nav{
-display:flex;
-justify-content:space-between;
-padding:20px 40px;
-background:#111;
-border-bottom:1px solid #222;
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 40px;
+    background: rgba(0,0,0,0.6);
 }
 
-.logo{
-color:#ff2a2a;
-font-weight:bold;
+.logo {
+    color: red;
+    font-weight: bold;
 }
 
-.logout{
-color:white;
-text-decoration:none;
+.menu a {
+    margin-left: 20px;
+    color: white;
+    text-decoration: none;
 }
 
-/* CONTAINER */
-.container{
-padding:40px;
+/* HEADER */
+.header {
+    text-align: center;
+    margin-top: 40px;
 }
 
-/* STATS */
-.stats{
-display:flex;
-gap:20px;
-margin-bottom:40px;
+.status {
+    margin-top: 10px;
+    padding: 8px 20px;
+    border-radius: 20px;
+    display: inline-block;
 }
 
-.card{
-flex:1;
-background:#111;
-padding:20px;
-border-radius:12px;
-text-align:center;
-box-shadow:0 0 20px rgba(255,0,0,0.2);
-transition:0.3s;
+.premium {
+    background: red;
 }
 
-.card:hover{
-transform:scale(1.05);
-box-shadow:0 0 30px red;
+.free {
+    background: gray;
 }
 
-.card h2{
-color:#ff2a2a;
+/* CARDS */
+.cards {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 50px;
 }
 
-/* STATUS */
-.status{
-margin-bottom:30px;
-padding:15px;
-background:#111;
-border-radius:10px;
+.card {
+    background: rgba(255,0,0,0.1);
+    padding: 30px;
+    border-radius: 15px;
+    width: 220px;
+    text-align: center;
+    transition: 0.3s;
 }
 
-/* LOGS */
-.logs{
-background:#111;
-padding:20px;
-border-radius:10px;
-height:300px;
-overflow-y:auto;
-font-size:14px;
-border:1px solid #222;
+.card:hover {
+    transform: scale(1.05);
+    background: rgba(255,0,0,0.3);
 }
 
+/* BUTTONS */
+.btn {
+    margin-top: 15px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    background: red;
+    color: white;
+    cursor: pointer;
+}
 </style>
 </head>
 
 <body>
 
 <!-- NAVBAR -->
-<div class="nav">
-<div class="logo">KIRNOS Dashboard</div>
-<a href="/" class="logout">Retour</a>
+<div class="navbar">
+    <div class="logo">KIRNOS</div>
+    <div class="menu">
+        <a href="/">Accueil</a>
+        <a href="/documentation">Docs</a>
+        <a href="/faq">FAQ</a>
+        <a href="/support">Support</a>
+        <a href="/logout">Logout</a>
+    </div>
 </div>
 
-<div class="container">
+<!-- HEADER -->
+<div class="header">
+    <h1>Dashboard</h1>
+    <p>Bienvenue sur Kirnos 🔥</p>
 
-<!-- STATUS -->
-<div class="status">
-🟢 Bot en ligne - Protection active
+    {% if premium %}
+        <div class="status premium">🔥 Premium Actif</div>
+    {% else %}
+        <div class="status free">❌ Gratuit</div>
+    {% endif %}
 </div>
 
-<!-- STATS -->
-<div class="stats">
-<div class="card">
-<h2 id="msg">0</h2>
-<p>Messages</p>
-</div>
+<!-- CARDS -->
+<div class="cards">
 
-<div class="card">
-<h2 id="insult">0</h2>
-<p>Insultes</p>
-</div>
+    <div class="card">
+        <h3>🛡️ Anti Troll</h3>
+        <p>Bloque les insultes</p>
+        <button class="btn">Activer</button>
+    </div>
 
-<div class="card">
-<h2 id="spam">0</h2>
-<p>Spam</p>
-</div>
-</div>
+    <div class="card">
+        <h3>⚔️ Anti Raid</h3>
+        <p>Protection en live</p>
+        <button class="btn">Activer</button>
+    </div>
 
-<!-- LOGS -->
-<h3>📜 Activité en direct</h3>
-<div class="logs" id="logs">
-Chargement...
-</div>
+    <div class="card">
+        <h3>📊 Stats</h3>
+        <p>Voir les données</p>
+        <button class="btn">Voir</button>
+    </div>
 
 </div>
-
-<script>
-
-async function loadLogs(){
-    try{
-        const res = await fetch("/live");
-        const text = await res.text();
-        document.getElementById("logs").innerText = text;
-    }catch{
-        document.getElementById("logs").innerText = "Erreur chargement";
-    }
-}
-
-setInterval(loadLogs, 2000);
-loadLogs();
-
-</script>
 
 </body>
 </html>

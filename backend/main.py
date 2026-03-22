@@ -140,3 +140,13 @@ def get_status(request: Request):
         return {"status": "error"}
 
     return {"running": bot_status.get(user, False)}
+
+from fastapi.responses import PlainTextResponse
+
+@app.get("/live", response_class=PlainTextResponse)
+def live():
+    try:
+        with open("data/live_logs.txt", "r", encoding="utf-8") as f:
+            return f.read()
+    except:
+        return "Aucun live"

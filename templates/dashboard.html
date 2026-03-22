@@ -44,13 +44,8 @@ body {
     display: inline-block;
 }
 
-.premium {
-    background: red;
-}
-
-.free {
-    background: gray;
-}
+.premium { background: red; }
+.free { background: gray; }
 
 /* CARDS */
 .cards {
@@ -58,11 +53,12 @@ body {
     justify-content: center;
     gap: 30px;
     margin-top: 50px;
+    flex-wrap: wrap;
 }
 
 .card {
     background: rgba(255,0,0,0.1);
-    padding: 30px;
+    padding: 25px;
     border-radius: 15px;
     width: 220px;
     text-align: center;
@@ -76,13 +72,41 @@ body {
 
 /* BUTTONS */
 .btn {
-    margin-top: 15px;
+    margin-top: 10px;
     padding: 10px 20px;
     border: none;
     border-radius: 20px;
     background: red;
     color: white;
     cursor: pointer;
+}
+
+/* LOGS BOX */
+.logs-box{
+    background:#111;
+    padding:20px;
+    border-radius:12px;
+    margin:40px;
+    border:1px solid #222;
+}
+
+#logs{
+    height:300px;
+    overflow-y:auto;
+    background:#000;
+    padding:15px;
+    border-radius:10px;
+    font-size:14px;
+    white-space:pre-wrap;
+}
+
+/* SCROLL */
+#logs::-webkit-scrollbar{
+    width:6px;
+}
+
+#logs::-webkit-scrollbar-thumb{
+    background:red;
 }
 </style>
 </head>
@@ -135,15 +159,22 @@ body {
     </div>
 
     <div class="card">
-    <h3>🤖 Bot Protection</h3>
-    <p id="status">Chargement...</p>
+        <h3>🤖 Bot Protection</h3>
+        <p id="status">Chargement...</p>
 
-    <button class="btn" onclick="startBot()">Démarrer</button>
-    <button class="btn" onclick="stopBot()">Stop</button>
+        <button class="btn" onclick="startBot()">Démarrer</button>
+        <button class="btn" onclick="stopBot()">Stop</button>
+    </div>
+
 </div>
 
+<!-- LOGS -->
+<div class="logs-box">
+    <h3>📡 Live TikTok</h3>
+    <div id="logs">Chargement...</div>
 </div>
 
+<!-- JS BOT -->
 <script>
 async function startBot() {
     await fetch("/bot/start");
@@ -170,6 +201,26 @@ async function updateStatus() {
 
 setInterval(updateStatus, 2000);
 updateStatus();
+</script>
+
+<!-- JS LOGS -->
+<script>
+async function loadLogs(){
+    try{
+        let res = await fetch("/live");
+        let data = await res.text();
+
+        let logs = document.getElementById("logs");
+        logs.innerText = data;
+        logs.scrollTop = logs.scrollHeight;
+
+    }catch{
+        document.getElementById("logs").innerText = "Erreur chargement...";
+    }
+}
+
+setInterval(loadLogs, 2000);
+loadLogs();
 </script>
 
 </body>

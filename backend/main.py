@@ -86,3 +86,10 @@ async def faq_page(request: Request):
 @app.get("/support", response_class=HTMLResponse)
 async def support(request: Request):
     return templates.TemplateResponse("support.html", {"request": request})
+
+
+@app.get("/dashboard", response_class=HTMLResponse)
+async def dashboard(request: Request):
+    if "user" not in request.session:
+        return RedirectResponse("/login/tiktok")
+    return templates.TemplateResponse("dashboard.html", {"request": request})

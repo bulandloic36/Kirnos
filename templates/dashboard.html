@@ -134,7 +134,43 @@ body {
         <button class="btn">Voir</button>
     </div>
 
+    <div class="card">
+    <h3>🤖 Bot Protection</h3>
+    <p id="status">Chargement...</p>
+
+    <button class="btn" onclick="startBot()">Démarrer</button>
+    <button class="btn" onclick="stopBot()">Stop</button>
 </div>
+
+</div>
+
+<script>
+async function startBot() {
+    await fetch("/bot/start");
+    updateStatus();
+}
+
+async function stopBot() {
+    await fetch("/bot/stop");
+    updateStatus();
+}
+
+async function updateStatus() {
+    let res = await fetch("/bot/status");
+    let data = await res.json();
+
+    let status = document.getElementById("status");
+
+    if (data.running) {
+        status.innerText = "🟢 Bot actif";
+    } else {
+        status.innerText = "🔴 Bot arrêté";
+    }
+}
+
+setInterval(updateStatus, 2000);
+updateStatus();
+</script>
 
 </body>
 </html>

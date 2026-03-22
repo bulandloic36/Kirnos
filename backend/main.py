@@ -108,3 +108,35 @@ def faq_page(request: Request):
 @app.get("/support", response_class=HTMLResponse)
 def support_page(request: Request):
     return templates.TemplateResponse("support.html", {"request": request})
+
+    # ===== BOT STATE =====
+bot_status = {}
+
+@app.get("/bot/start")
+def start_bot(request: Request):
+    user = request.session.get("user")
+
+    if not user:
+        return {"status": "error"}
+
+    bot_status[user] = True
+    return {"status": "started"}
+
+@app.get("/bot/stop")
+def stop_bot(request: Request):
+    user = request.session.get("user")
+
+    if not user:
+        return {"status": "error"}
+
+    bot_status[user] = False
+    return {"status": "stopped"}
+
+@app.get("/bot/status")
+def get_status(request: Request):
+    user = request.session.get("user")
+
+    if not user:
+        return {"status": "error"}
+
+    return {"running": bot_status.get(user, False)}

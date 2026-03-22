@@ -60,7 +60,7 @@ body {
     background: rgba(255,0,0,0.1);
     padding: 25px;
     border-radius: 15px;
-    width: 220px;
+    width: 240px;
     text-align: center;
     transition: 0.3s;
 }
@@ -79,6 +79,14 @@ body {
     background: red;
     color: white;
     cursor: pointer;
+}
+
+/* INPUT */
+input{
+    padding:8px;
+    border-radius:10px;
+    border:none;
+    margin-top:10px;
 }
 
 /* LOGS BOX */
@@ -100,7 +108,6 @@ body {
     white-space:pre-wrap;
 }
 
-/* SCROLL */
 #logs::-webkit-scrollbar{
     width:6px;
 }
@@ -158,12 +165,20 @@ body {
         <button class="btn">Voir</button>
     </div>
 
+    <!-- BOT -->
     <div class="card">
         <h3>🤖 Bot Protection</h3>
         <p id="status">Chargement...</p>
 
         <button class="btn" onclick="startBot()">Démarrer</button>
         <button class="btn" onclick="stopBot()">Stop</button>
+    </div>
+
+    <!-- BAN -->
+    <div class="card">
+        <h3>🚫 Bannir utilisateur</h3>
+        <input id="userToBan" placeholder="Pseudo">
+        <button class="btn" onclick="banUser()">BAN</button>
     </div>
 
 </div>
@@ -203,6 +218,22 @@ setInterval(updateStatus, 2000);
 updateStatus();
 </script>
 
+<!-- JS BAN -->
+<script>
+async function banUser(){
+    let user = document.getElementById("userToBan").value;
+
+    if(!user){
+        alert("Entre un pseudo !");
+        return;
+    }
+
+    await fetch("/ban/" + user);
+
+    alert("Utilisateur banni !");
+}
+</script>
+
 <!-- JS LOGS -->
 <script>
 async function loadLogs(){
@@ -211,11 +242,32 @@ async function loadLogs(){
         let data = await res.text();
 
         let logs = document.getElementById("logs");
-        logs.innerText = data;
+        logs.innerHTML = "";
+
+        let lines = data.split("\n");
+
+        lines.forEach(line => {
+
+            let div = document.createElement("div");
+
+            if(line.includes("[INSULTE]")){
+                div.style.color = "red";
+            }
+            else if(line.includes("[ALERTE]")){
+                div.style.color = "orange";
+            }
+            else{
+                div.style.color = "white";
+            }
+
+            div.textContent = line;
+            logs.appendChild(div);
+        });
+
         logs.scrollTop = logs.scrollHeight;
 
     }catch{
-        document.getElementById("logs").innerText = "Erreur chargement...";
+        document.getElementById("logs").innerText = "Erreur logs";
     }
 }
 

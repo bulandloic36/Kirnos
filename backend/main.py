@@ -1,5 +1,5 @@
 from fastapi import FastAPI, Request
-from fastapi.responses import HTMLResponse, RedirectResponse
+from fastapi.responses import HTMLResponse, RedirectResponse, PlainTextResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from starlette.middleware.sessions import SessionMiddleware
@@ -16,6 +16,8 @@ DOMAIN = "http://127.0.0.1:8000"
 
 # ===== DATA =====
 premium_users = {}
+bot_status = {}
+banned_users = []
 
 # ===== TEMPLATES =====
 templates = Jinja2Templates(directory="templates")
@@ -26,7 +28,7 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 def home(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
-# ===== LOGIN TIKTOK (FAKE) =====
+# ===== LOGIN =====
 @app.get("/login/tiktok")
 def login(request: Request):
     request.session["user"] = "user123"
@@ -46,7 +48,6 @@ def dashboard(request: Request):
         return RedirectResponse("/login/tiktok")
 
     user = request.session["user"]
-
     is_premium = premium_users.get(user, False)
 
     return templates.TemplateResponse("dashboard.html", {
@@ -94,24 +95,20 @@ def success(request: Request):
 
     return RedirectResponse("/dashboard")
 
-# ===== DOCUMENTATION =====
+# ===== PAGES =====
 @app.get("/documentation", response_class=HTMLResponse)
 def docs_page(request: Request):
     return templates.TemplateResponse("docs.html", {"request": request})
 
-# ===== FAQ =====
 @app.get("/faq", response_class=HTMLResponse)
 def faq_page(request: Request):
     return templates.TemplateResponse("faq.html", {"request": request})
 
-# ===== SUPPORT =====
 @app.get("/support", response_class=HTMLResponse)
 def support_page(request: Request):
     return templates.TemplateResponse("support.html", {"request": request})
 
-    # ===== BOT STATE =====
-bot_status = {}
-
+# ===== BOT CONTROL =====
 @app.get("/bot/start")
 def start_bot(request: Request):
     user = request.session.get("user")
@@ -141,8 +138,13 @@ def get_status(request: Request):
 
     return {"running": bot_status.get(user, False)}
 
-from fastapi.responses import PlainTextResponse
+# ===== BAN SYSTEM =====
+@app.get("/ban/{username}")
+def ban_user(username: str):
+    banned_users.append(username)
+    return {"status": "banned", "user": username}
 
+# ===== LIVE LOGS =====
 @app.get("/live", response_class=PlainTextResponse)
 def live():
     try:

@@ -2,48 +2,26 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>KIRNOS - FAQ</title>
+<title>FAQ - Kirnos</title>
 
 <style>
 
 body{
-font-family:'Segoe UI',sans-serif;
-margin:0;
+background:#0b0b0b;
 color:white;
-background:linear-gradient(135deg,#0a0a0a,#2b0000);
-}
-
-/* NAVBAR */
-
-.navbar{
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:20px 40px;
-background:rgba(0,0,0,0.6);
-backdrop-filter:blur(10px);
-}
-
-.logo{
-color:#ff2a2a;
-font-weight:bold;
+font-family:Arial;
+padding:40px;
 }
 
 .back{
+position:fixed;
+top:20px;
+right:20px;
 background:#ff2a2a;
 padding:10px 20px;
-border-radius:30px;
+border-radius:20px;
 text-decoration:none;
 color:white;
-font-weight:bold;
-}
-
-/* CONTENT */
-
-.container{
-padding:60px;
-max-width:900px;
-margin:auto;
 }
 
 h1{
@@ -51,109 +29,44 @@ color:#ff2a2a;
 margin-bottom:30px;
 }
 
-/* FAQ */
-
-.faq-item{
+.box{
 background:#111;
-margin-bottom:15px;
-border-radius:10px;
-overflow:hidden;
-box-shadow:0 0 10px rgba(255,0,0,0.2);
-}
-
-.question{
 padding:20px;
-cursor:pointer;
-font-weight:bold;
+border-radius:10px;
+margin-bottom:20px;
+border:1px solid #222;
+box-shadow:0 0 20px rgba(255,0,0,0.2);
 transition:0.3s;
 }
 
-.question:hover{
-background:#1a1a1a;
-}
-
-.answer{
-padding:0 20px;
-max-height:0;
-overflow:hidden;
-transition:0.4s;
-opacity:0.7;
-}
-
-/* OPEN */
-
-.faq-item.active .answer{
-max-height:200px;
-padding:20px;
+.box:hover{
+box-shadow:0 0 30px red;
+transform:scale(1.02);
 }
 
 </style>
-
 </head>
 
 <body>
 
-<!-- NAVBAR -->
+<a href="/" class="back">⬅ Retour accueil</a>
 
-<div class="navbar">
-<div class="logo">KIRNOS</div>
-<a href="/" class="back">⬅ Retour Accueil</a>
+<h1>❓ FAQ Kirnos</h1>
+
+<div class="box">
+<h3>🤖 Le bot est-il automatique ?</h3>
+<p>Oui, une fois connecté, Kirnos analyse et modère automatiquement ton live en temps réel.</p>
 </div>
 
-<!-- CONTENT -->
-
-<div class="container">
-
-<h1>❓ FAQ - Questions fréquentes</h1>
-
-<div class="faq-item">
-<div class="question">👉 Est-ce que Kirnos est gratuit ?</div>
-<div class="answer">
-Oui, une version gratuite est disponible. Le Premium débloque des fonctionnalités avancées.
-</div>
+<div class="box">
+<h3>🔐 Est-ce sécurisé ?</h3>
+<p>Oui, aucune donnée sensible n’est stockée. Tout est sécurisé et conforme.</p>
 </div>
 
-<div class="faq-item">
-<div class="question">👉 Comment connecter mon TikTok ?</div>
-<div class="answer">
-Clique sur "Connexion TikTok" sur la page d’accueil et autorise l’accès.
+<div class="box">
+<h3>💰 Faut-il payer ?</h3>
+<p>Une version gratuite existe. Le premium débloque toutes les fonctionnalités avancées.</p>
 </div>
-</div>
-
-<div class="faq-item">
-<div class="question">👉 Est-ce que le bot bloque automatiquement ?</div>
-<div class="answer">
-Oui, Kirnos analyse les messages en temps réel et bloque les contenus toxiques automatiquement.
-</div>
-</div>
-
-<div class="faq-item">
-<div class="question">👉 Le Premium sert à quoi ?</div>
-<div class="answer">
-Le Premium offre une IA plus puissante, un anti-raid avancé et un dashboard complet.
-</div>
-</div>
-
-<div class="faq-item">
-<div class="question">👉 Mes données sont-elles sécurisées ?</div>
-<div class="answer">
-Oui, toutes les connexions sont sécurisées et aucune donnée sensible n’est partagée.
-</div>
-</div>
-
-</div>
-
-<!-- JS -->
-
-<script>
-
-document.querySelectorAll(".faq-item").forEach(item => {
-item.addEventListener("click", () => {
-item.classList.toggle("active");
-});
-});
-
-</script>
 
 </body>
 </html>

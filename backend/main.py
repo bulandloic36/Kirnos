@@ -82,3 +82,7 @@ async def docs_page(request: Request):
 @app.get("/faq", response_class=HTMLResponse)
 async def faq_page(request: Request):
     return templates.TemplateResponse("faq.html", {"request": request})
+
+@app.get("/support", response_class=HTMLResponse)
+async def support(request: Request):
+    return templates.TemplateResponse("support.html", {"request": request})

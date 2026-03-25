@@ -6,13 +6,16 @@ from starlette.middleware.sessions import SessionMiddleware
 import stripe
 import os
 
+app = FastAPI()
+
+import os
+
+# ===== INIT DATA =====
 os.makedirs("data", exist_ok=True)
 
 if not os.path.exists("data/live_logs.txt"):
     with open("data/live_logs.txt", "w", encoding="utf-8") as f:
         f.write("[SYSTEM] Bot prêt...\n")
-
-app = FastAPI()
 
 # ===== SESSION =====
 app.add_middleware(SessionMiddleware, secret_key="kirnos_secret")
@@ -34,7 +37,12 @@ if not os.path.exists(LOG_FILE):
     open(LOG_FILE, "w", encoding="utf-8").close()
 
 # ===== TEMPLATES =====
-templates = Jinja2Templates(directory="templates")
+import os
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+templates = Jinja2Templates(directory=os.path.join(BASE_DIR, "../templates"))
+
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 # ===== HOME =====

@@ -1,27 +1,45 @@
 from TikTokLive import TikTokLiveClient
 from TikTokLive.events import CommentEvent
+import os
 
-# 👉 mets ton pseudo TikTok ici
-client = TikTokLiveClient(unique_id="loic_1110")
+# ===== CONFIG =====
+USERNAME = "@loic_1110"  # 🔥 mets ton pseudo TikTok ici
 
-bad_words = ["pute", "fdp", "connard", "sale"]
+client = TikTokLiveClient(unique_id=USERNAME)
 
+# ===== MOTS INTERDITS =====
+bad_words = ["pute", "fdp", "connard", "salope", "encule"]
+
+# ===== DOSSIER LOG =====
+os.makedirs("data", exist_ok=True)
+LOG_FILE = "data/live_logs.txt"
+
+# ===== FONCTION LOG =====
+def write_log(text):
+    with open(LOG_FILE, "a", encoding="utf-8") as f:
+        f.write(text + "\n")
+
+# ===== EVENT COMMENT =====
 @client.on(CommentEvent)
 async def on_comment(event: CommentEvent):
 
-    message = event.comment.lower()
     username = event.user.nickname
+    message = event.comment.lower()
 
-    # LOG PAR DÉFAUT
+    # ===== LOG NORMAL =====
     log = f"{username}: {message}"
 
-    # DÉTECTION INSULTES
+    # ===== INSULTE =====
     if any(word in message for word in bad_words):
         log = f"[INSULTE] {username}: {message}"
 
-    print(log)
+    # ===== SPAM =====
+    elif message.count(" ") < 1 and len(message) > 15:
+        log = f"[ALERTE] Spam suspect: {username}"
 
-    # UNE SEULE ÉCRITURE
-    with open("data/live_logs.txt", "a", encoding="utf-8") as f:
-        f.write(log + "\n")
+    print(log)
+    write_log(log)
+
+# ===== START =====
+print("🔥 Bot lancé...")
 client.run()

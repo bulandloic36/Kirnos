@@ -1,13 +1,10 @@
 from fastapi import FastAPI, Request
-from fastapi.responses import HTMLResponse, RedirectResponse, PlainTextResponse
+from fastapi.responses import HTMLResponse, RedirectResponse, PlainTextResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from starlette.middleware.sessions import SessionMiddleware
 import stripe
 import os
-
-os.makedirs("data", exist_ok=True)
-open("data/live_logs.txt", "a").close()
 
 app = FastAPI()
 
@@ -22,6 +19,13 @@ DOMAIN = "http://127.0.0.1:8000"
 premium_users = {}
 bot_status = {}
 banned_users = []
+
+# ===== LOG FILE =====
+os.makedirs("data", exist_ok=True)
+LOG_FILE = "data/live_logs.txt"
+
+if not os.path.exists(LOG_FILE):
+    open(LOG_FILE, "w", encoding="utf-8").close()
 
 # ===== TEMPLATES =====
 templates = Jinja2Templates(directory="templates")
@@ -61,7 +65,7 @@ def dashboard(request: Request):
 
 # ===== STRIPE =====
 @app.get("/buy/{plan}")
-def buy(request: Request, plan: str):
+def buy(plan: str):
 
     prices = {
         "1m": 1000,
@@ -77,7 +81,7 @@ def buy(request: Request, plan: str):
         line_items=[{
             "price_data": {
                 "currency": "eur",
-                "product_data": {"name": "Kirnos Premium"},
+                "product_data": {"name": f"Kirnos Premium {plan}"},
                 "unit_amount": prices[plan],
             },
             "quantity": 1,
@@ -118,7 +122,7 @@ def start_bot(request: Request):
     user = request.session.get("user")
 
     if not user:
-        return {"status": "error"}
+        return JSONResponse({"error": "not logged"}, status_code=401)
 
     bot_status[user] = True
     return {"status": "started"}
@@ -128,7 +132,7 @@ def stop_bot(request: Request):
     user = request.session.get("user")
 
     if not user:
-        return {"status": "error"}
+        return JSONResponse({"error": "not logged"}, status_code=401)
 
     bot_status[user] = False
     return {"status": "stopped"}
@@ -138,28 +142,29 @@ def get_status(request: Request):
     user = request.session.get("user")
 
     if not user:
-        return {"status": "error"}
+        return {"running": False}
 
     return {"running": bot_status.get(user, False)}
 
 # ===== BAN SYSTEM =====
 @app.get("/ban/{username}")
 def ban_user(username: str):
-    banned_users.append(username)
+
+    if username not in banned_users:
+        banned_users.append(username)
+
+        # log ban
+        with open(LOG_FILE, "a", encoding="utf-8") as f:
+            f.write(f"[BAN] {username} a été banni\n")
+
     return {"status": "banned", "user": username}
 
 # ===== LIVE LOGS =====
 @app.get("/live", response_class=PlainTextResponse)
 def live():
-    import os
-
-    os.makedirs("data", exist_ok=True)
-
-    if not os.path.exists("data/live_logs.txt"):
-        return "Aucun live pour le moment..."
 
     try:
-        with open("data/live_logs.txt", "r", encoding="utf-8") as f:
+        with open(LOG_FILE, "r", encoding="utf-8") as f:
             return f.read()
     except:
-        return "Erreur lecture logs"
+        return "Aucun live pour le moment..."

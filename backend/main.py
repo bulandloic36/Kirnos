@@ -8,61 +8,72 @@ import os
 
 app = FastAPI()
 
-import os
+# ==============================
+# CONFIG GLOBAL
+# ==============================
 
-# ===== INIT DATA =====
-os.makedirs("data", exist_ok=True)
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-if not os.path.exists("data/live_logs.txt"):
-    with open("data/live_logs.txt", "w", encoding="utf-8") as f:
+DATA_DIR = os.path.join(BASE_DIR, "data")
+LOG_FILE = os.path.join(DATA_DIR, "live_logs.txt")
+
+os.makedirs(DATA_DIR, exist_ok=True)
+
+if not os.path.exists(LOG_FILE):
+    with open(LOG_FILE, "w", encoding="utf-8") as f:
         f.write("[SYSTEM] Bot prêt...\n")
 
-# ===== SESSION =====
+# ==============================
+# SESSION
+# ==============================
 app.add_middleware(SessionMiddleware, secret_key="kirnos_secret")
 
-# ===== STRIPE =====
+# ==============================
+# STRIPE
+# ==============================
 stripe.api_key = "sk_test_xxxxx"
 DOMAIN = "http://127.0.0.1:8000"
 
-# ===== DATA =====
+# ==============================
+# DATA
+# ==============================
 premium_users = {}
 bot_status = {}
 banned_users = []
 
-# ===== LOG FILE =====
-os.makedirs("data", exist_ok=True)
-LOG_FILE = "data/live_logs.txt"
+# ==============================
+# TEMPLATES & STATIC
+# ==============================
+templates = Jinja2Templates(directory=os.path.join(BASE_DIR, "templates"))
 
-if not os.path.exists(LOG_FILE):
-    open(LOG_FILE, "w", encoding="utf-8").close()
+app.mount("/static", StaticFiles(directory=os.path.join(BASE_DIR, "static")), name="static")
 
-# ===== TEMPLATES =====
-import os
-
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-
-templates = Jinja2Templates(directory=os.path.join(BASE_DIR, "../templates"))
-
-app.mount("/static", StaticFiles(directory="static"), name="static")
-
-# ===== HOME =====
+# ==============================
+# HOME
+# ==============================
 @app.get("/", response_class=HTMLResponse)
 def home(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
-# ===== LOGIN =====
+# ==============================
+# LOGIN
+# ==============================
 @app.get("/login/tiktok")
 def login(request: Request):
     request.session["user"] = "user123"
     return RedirectResponse("/dashboard")
 
-# ===== LOGOUT =====
+# ==============================
+# LOGOUT
+# ==============================
 @app.get("/logout")
 def logout(request: Request):
     request.session.clear()
     return RedirectResponse("/")
 
-# ===== DASHBOARD =====
+# ==============================
+# DASHBOARD
+# ==============================
 @app.get("/dashboard", response_class=HTMLResponse)
 def dashboard(request: Request):
 
@@ -77,7 +88,9 @@ def dashboard(request: Request):
         "premium": is_premium
     })
 
-# ===== STRIPE =====
+# ==============================
+# STRIPE PAIEMENT
+# ==============================
 @app.get("/buy/{plan}")
 def buy(plan: str):
 
@@ -95,7 +108,9 @@ def buy(plan: str):
         line_items=[{
             "price_data": {
                 "currency": "eur",
-                "product_data": {"name": f"Kirnos Premium {plan}"},
+                "product_data": {
+                    "name": f"Kirnos Premium {plan}"
+                },
                 "unit_amount": prices[plan],
             },
             "quantity": 1,
@@ -107,7 +122,9 @@ def buy(plan: str):
 
     return RedirectResponse(session.url)
 
-# ===== SUCCESS =====
+# ==============================
+# SUCCESS
+# ==============================
 @app.get("/success")
 def success(request: Request):
     user = request.session.get("user")
@@ -117,7 +134,9 @@ def success(request: Request):
 
     return RedirectResponse("/dashboard")
 
-# ===== PAGES =====
+# ==============================
+# PAGES
+# ==============================
 @app.get("/documentation", response_class=HTMLResponse)
 def docs_page(request: Request):
     return templates.TemplateResponse("docs.html", {"request": request})
@@ -130,7 +149,9 @@ def faq_page(request: Request):
 def support_page(request: Request):
     return templates.TemplateResponse("support.html", {"request": request})
 
-# ===== BOT CONTROL =====
+# ==============================
+# BOT CONTROL
+# ==============================
 @app.get("/bot/start")
 def start_bot(request: Request):
     user = request.session.get("user")
@@ -160,31 +181,27 @@ def get_status(request: Request):
 
     return {"running": bot_status.get(user, False)}
 
-# ===== BAN SYSTEM =====
+# ==============================
+# BAN SYSTEM
+# ==============================
 @app.get("/ban/{username}")
 def ban_user(username: str):
 
     if username not in banned_users:
         banned_users.append(username)
 
-        # log ban
         with open(LOG_FILE, "a", encoding="utf-8") as f:
             f.write(f"[BAN] {username} a été banni\n")
 
     return {"status": "banned", "user": username}
 
-# ===== LIVE LOGS =====
+# ==============================
+# LIVE LOGS
+# ==============================
 @app.get("/live", response_class=PlainTextResponse)
 def live():
-    import os
-
-    os.makedirs("data", exist_ok=True)
-
-    if not os.path.exists("data/live_logs.txt"):
-        return "Aucun live"
-
     try:
-        with open("data/live_logs.txt", "r", encoding="utf-8") as f:
+        with open(LOG_FILE, "r", encoding="utf-8") as f:
             return f.read()
     except:
         return "Erreur lecture logs"

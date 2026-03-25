@@ -32,7 +32,7 @@ app.add_middleware(SessionMiddleware, secret_key="kirnos_secret")
 # STRIPE
 # ==============================
 stripe.api_key = "sk_test_xxxxx"
-DOMAIN = "http://127.0.0.1:8000"
+DOMAIN = "https://kirnos.onrender.com"
 
 # ==============================
 # DATA

@@ -153,13 +153,13 @@ def ban_user(username: str):
 def live():
     import os
 
-    path = "data/live_logs.txt"
+    os.makedirs("data", exist_ok=True)
 
-    if not os.path.exists(path):
+    if not os.path.exists("data/live_logs.txt"):
         return "Aucun live pour le moment..."
 
     try:
-        with open(path, "r", encoding="utf-8") as f:
+        with open("data/live_logs.txt", "r", encoding="utf-8") as f:
             return f.read()
     except:
         return "Erreur lecture logs"

@@ -6,13 +6,19 @@ from starlette.middleware.sessions import SessionMiddleware
 import stripe
 import os
 
+os.makedirs("data", exist_ok=True)
+
+if not os.path.exists("data/live_logs.txt"):
+    with open("data/live_logs.txt", "w", encoding="utf-8") as f:
+        f.write("[SYSTEM] Bot prêt...\n")
+
 app = FastAPI()
 
 # ===== SESSION =====
 app.add_middleware(SessionMiddleware, secret_key="kirnos_secret")
 
 # ===== STRIPE =====
-stripe.api_key = "sk_test_TA_CLE"
+stripe.api_key = "sk_test_xxxxx"
 DOMAIN = "http://127.0.0.1:8000"
 
 # ===== DATA =====

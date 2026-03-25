@@ -2,7 +2,7 @@ from TikTokLive import TikTokLiveClient
 from TikTokLive.events import CommentEvent
 
 # 👉 mets ton pseudo TikTok ici
-client = TikTokLiveClient(unique_id="@loic_1110")
+client = TikTokLiveClient(unique_id="loic_1110")
 
 bad_words = ["pute", "fdp", "connard", "sale"]
 

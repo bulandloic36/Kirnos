@@ -162,9 +162,15 @@ def ban_user(username: str):
 # ===== LIVE LOGS =====
 @app.get("/live", response_class=PlainTextResponse)
 def live():
+    import os
+
+    os.makedirs("data", exist_ok=True)
+
+    if not os.path.exists("data/live_logs.txt"):
+        return "Aucun live"
 
     try:
-        with open(LOG_FILE, "r", encoding="utf-8") as f:
+        with open("data/live_logs.txt", "r", encoding="utf-8") as f:
             return f.read()
     except:
-        return "Aucun live pour le moment..."
+        return "Erreur lecture logs"

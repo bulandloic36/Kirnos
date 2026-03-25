@@ -4,6 +4,10 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from starlette.middleware.sessions import SessionMiddleware
 import stripe
+import os
+
+os.makedirs("data", exist_ok=True)
+open("data/live_logs.txt", "a").close()
 
 app = FastAPI()
 

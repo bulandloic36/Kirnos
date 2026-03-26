@@ -25,6 +25,12 @@ def login(request: Request):
     request.session["user"] = "user"
     return RedirectResponse("/dashboard")
 
+# ===== LOGOUT =====
+@app.get("/logout")
+def logout(request: Request):
+    request.session.clear()
+    return RedirectResponse("/")
+
 # ===== DASHBOARD =====
 @app.get("/dashboard", response_class=HTMLResponse)
 def dashboard(request: Request):
@@ -32,6 +38,21 @@ def dashboard(request: Request):
         return RedirectResponse("/login/tiktok")
 
     return templates.TemplateResponse("dashboard.html", {"request": request})
+
+# ===== DOCUMENTATION =====
+@app.get("/documentation", response_class=HTMLResponse)
+def documentation(request: Request):
+    return templates.TemplateResponse("docs.html", {"request": request})
+
+# ===== FAQ =====
+@app.get("/faq", response_class=HTMLResponse)
+def faq(request: Request):
+    return templates.TemplateResponse("faq.html", {"request": request})
+
+# ===== SUPPORT =====
+@app.get("/support", response_class=HTMLResponse)
+def support(request: Request):
+    return templates.TemplateResponse("support.html", {"request": request})
 
 # ===== BOT =====
 @app.get("/bot/start")

@@ -1,98 +1,86 @@
 from TikTokLive import TikTokLiveClient
 from TikTokLive.events import CommentEvent
 import os
-import re
+import time
 
 # ===== CONFIG =====
-USERNAME = "TON_PSEUDO"
+USERNAME = "kirnos24"  # 🔥 ton TikTok
+SAFE_MODE = True       # 🔒 mode sécurisé activé
 
 client = TikTokLiveClient(unique_id=USERNAME)
 
-# ===== DOSSIER =====
+# ===== DATA =====
 os.makedirs("data", exist_ok=True)
 LOG_FILE = "data/live_logs.txt"
 
-# ===== LISTE INSULTES =====
-bad_words = [
-    "pute", "fdp", "connard", "salope", "encule",
-    "batard", "ntm", "tg", "nique"
-]
+bad_words = ["pute", "fdp", "connard", "salope", "encule"]
 
-# ===== NORMALISATION TEXTE =====
-def normalize(text):
-    text = text.lower()
-
-    # remplace lettres stylées
-    text = text.replace("@", "a").replace("4", "a")
-    text = text.replace("0", "o").replace("1", "i")
-    text = text.replace("3", "e")
-
-    # supprime caractères spéciaux
-    text = re.sub(r"[^a-zA-Z0-9\s]", "", text)
-
-    return text
-
-# ===== IA DETECTION =====
-def detect_toxic(message):
-
-    msg = normalize(message)
-
-    score = 0
-
-    # insultes directes
-    for word in bad_words:
-        if word in msg:
-            score += 2
-
-    # spam (message trop long sans espace)
-    if len(msg) > 20 and " " not in msg:
-        score += 1
-
-    # répétition lettres
-    if re.search(r"(.)\1{5,}", msg):
-        score += 1
-
-    # MAJUSCULE SPAM
-    if message.isupper() and len(message) > 10:
-        score += 1
-
-    # classification
-    if score >= 2:
-        return "INSULTE"
-    elif score == 1:
-        return "ALERTE"
-    else:
-        return "OK"
+user_messages = {}  # anti spam tracking
 
 # ===== LOG =====
 def write_log(text):
     with open(LOG_FILE, "a", encoding="utf-8") as f:
         f.write(text + "\n")
 
+# ===== DETECTION INTELLIGENTE =====
+def is_insult(message):
+    msg = message.lower()
+
+    for word in bad_words:
+        if word in msg:
+            return True
+    return False
+
+def is_spam(username, message):
+    now = time.time()
+
+    if username not in user_messages:
+        user_messages[username] = []
+
+    user_messages[username].append(now)
+
+    # garder seulement 5 dernières secondes
+    user_messages[username] = [
+        t for t in user_messages[username] if now - t < 5
+    ]
+
+    # spam si +5 messages en 5 sec
+    if len(user_messages[username]) > 5:
+        return True
+
+    # message suspect (genre "AAAAAAAAAAAA")
+    if len(message) > 15 and message.count(" ") < 1:
+        return True
+
+    return False
+
 # ===== EVENT =====
 @client.on(CommentEvent)
 async def on_comment(event: CommentEvent):
 
-    user = event.user.nickname
-    message = event.comment
+    username = event.user.nickname
+    message = event.comment.strip()
 
-    result = detect_toxic(message)
+    # ===== INSULTE =====
+    if is_insult(message):
+        log = f"[INSULTE] {username}: {message}"
 
-    if result == "INSULTE":
-        log = f"[INSULTE] {user}: {message}"
+        if SAFE_MODE:
+            log += " (SAFE)"
+        else:
+            log += " (BAN)"
 
-        # 🔥 BAN AUTO (simulation)
-        log += " → BAN"
+    # ===== SPAM =====
+    elif is_spam(username, message):
+        log = f"[ALERTE] Spam détecté: {username}"
 
-    elif result == "ALERTE":
-        log = f"[ALERTE] {user}: {message}"
-
+    # ===== NORMAL =====
     else:
-        log = f"{user}: {message}"
+        log = f"{username}: {message}"
 
     print(log)
     write_log(log)
 
-    # ===== START =====
-print("🔥 IA BOT ACTIVÉ")
+# ===== START =====
+print("🔥 Kirnos Bot SAFE MODE PRO lancé")
 client.run()

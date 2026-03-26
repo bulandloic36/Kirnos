@@ -8,72 +8,47 @@ import os
 
 app = FastAPI()
 
-# ==============================
-# CONFIG GLOBAL
-# ==============================
-
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-
-DATA_DIR = os.path.join(BASE_DIR, "data")
-LOG_FILE = os.path.join(DATA_DIR, "live_logs.txt")
-
-os.makedirs(DATA_DIR, exist_ok=True)
-
-if not os.path.exists(LOG_FILE):
-    with open(LOG_FILE, "w", encoding="utf-8") as f:
-        f.write("[SYSTEM] Bot prêt...\n")
-
-# ==============================
-# SESSION
-# ==============================
+# ===== SESSION =====
 app.add_middleware(SessionMiddleware, secret_key="kirnos_secret")
 
-# ==============================
-# STRIPE
-# ==============================
-stripe.api_key = "sk_test_xxxxx"
-DOMAIN = "https://kirnos.onrender.com"
+# ===== STRIPE =====
+stripe.api_key = "sk_test_TA_CLE"
+DOMAIN = "https://kirnos.onrender.com"  # 🔥 TON VRAI SITE
 
-# ==============================
-# DATA
-# ==============================
+# ===== DATA =====
 premium_users = {}
 bot_status = {}
 banned_users = []
 
-# ==============================
-# TEMPLATES & STATIC
-# ==============================
+# ===== PATH =====
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
 templates = Jinja2Templates(directory=os.path.join(BASE_DIR, "templates"))
 
-app.mount("/static", StaticFiles(directory=os.path.join(BASE_DIR, "static")), name="static")
+app.mount(
+    "/static",
+    StaticFiles(directory=os.path.join(BASE_DIR, "static")),
+    name="static"
+)
 
-# ==============================
-# HOME
-# ==============================
+# ===== HOME =====
 @app.get("/", response_class=HTMLResponse)
 def home(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
-# ==============================
-# LOGIN
-# ==============================
+# ===== LOGIN =====
 @app.get("/login/tiktok")
 def login(request: Request):
     request.session["user"] = "user123"
     return RedirectResponse("/dashboard")
 
-# ==============================
-# LOGOUT
-# ==============================
+# ===== LOGOUT =====
 @app.get("/logout")
 def logout(request: Request):
     request.session.clear()
     return RedirectResponse("/")
 
-# ==============================
-# DASHBOARD
-# ==============================
+# ===== DASHBOARD =====
 @app.get("/dashboard", response_class=HTMLResponse)
 def dashboard(request: Request):
 
@@ -88,30 +63,28 @@ def dashboard(request: Request):
         "premium": is_premium
     })
 
-# ==============================
-# STRIPE PAIEMENT
-# ==============================
-@app.get("/buy/{plan}")
-def buy(plan: str):
+# ===== STRIPE =====
+@app.get("/create-checkout-session/{plan}")
+def create_checkout_session(plan: str):
 
     prices = {
-        "1m": 1000,
-        "3m": 3000,
-        "6m": 5000
+        "1m": (1000, "Kirnos Premium - 1 mois"),
+        "3m": (3000, "Kirnos Premium - 3 mois"),
+        "6m": (5000, "Kirnos Premium - 6 mois")
     }
 
     if plan not in prices:
-        return RedirectResponse("/dashboard")
+        return JSONResponse({"error": "plan invalide"})
+
+    amount, name = prices[plan]
 
     session = stripe.checkout.Session.create(
         payment_method_types=["card"],
         line_items=[{
             "price_data": {
                 "currency": "eur",
-                "product_data": {
-                    "name": f"Kirnos Premium {plan}"
-                },
-                "unit_amount": prices[plan],
+                "product_data": {"name": name},
+                "unit_amount": amount,
             },
             "quantity": 1,
         }],
@@ -120,11 +93,9 @@ def buy(plan: str):
         cancel_url=DOMAIN,
     )
 
-    return RedirectResponse(session.url)
+    return JSONResponse({"url": session.url})
 
-# ==============================
-# SUCCESS
-# ==============================
+# ===== SUCCESS =====
 @app.get("/success")
 def success(request: Request):
     user = request.session.get("user")
@@ -134,9 +105,7 @@ def success(request: Request):
 
     return RedirectResponse("/dashboard")
 
-# ==============================
-# PAGES
-# ==============================
+# ===== PAGES =====
 @app.get("/documentation", response_class=HTMLResponse)
 def docs_page(request: Request):
     return templates.TemplateResponse("docs.html", {"request": request})
@@ -149,15 +118,13 @@ def faq_page(request: Request):
 def support_page(request: Request):
     return templates.TemplateResponse("support.html", {"request": request})
 
-# ==============================
-# BOT CONTROL
-# ==============================
+# ===== BOT CONTROL =====
 @app.get("/bot/start")
 def start_bot(request: Request):
     user = request.session.get("user")
 
     if not user:
-        return JSONResponse({"error": "not logged"}, status_code=401)
+        return {"status": "error"}
 
     bot_status[user] = True
     return {"status": "started"}
@@ -167,7 +134,7 @@ def stop_bot(request: Request):
     user = request.session.get("user")
 
     if not user:
-        return JSONResponse({"error": "not logged"}, status_code=401)
+        return {"status": "error"}
 
     bot_status[user] = False
     return {"status": "stopped"}
@@ -177,31 +144,21 @@ def get_status(request: Request):
     user = request.session.get("user")
 
     if not user:
-        return {"running": False}
+        return {"status": "error"}
 
     return {"running": bot_status.get(user, False)}
 
-# ==============================
-# BAN SYSTEM
-# ==============================
+# ===== BAN =====
 @app.get("/ban/{username}")
 def ban_user(username: str):
-
-    if username not in banned_users:
-        banned_users.append(username)
-
-        with open(LOG_FILE, "a", encoding="utf-8") as f:
-            f.write(f"[BAN] {username} a été banni\n")
-
+    banned_users.append(username)
     return {"status": "banned", "user": username}
 
-# ==============================
-# LIVE LOGS
-# ==============================
+# ===== LIVE LOGS =====
 @app.get("/live", response_class=PlainTextResponse)
 def live():
     try:
-        with open(LOG_FILE, "r", encoding="utf-8") as f:
+        with open("data/live_logs.txt", "r", encoding="utf-8") as f:
             return f.read()
     except:
-        return "Erreur lecture logs"
+        return "Aucun live"
